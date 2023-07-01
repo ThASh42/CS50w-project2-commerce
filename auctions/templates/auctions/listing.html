@@ -1,27 +1,44 @@
 {% extends 'auctions/layout.html' %}
 
 {% block body %}
-<div>
-    <img src="{{ listing.image }}" alt="Picture of shovel" style="width:300px">
-</div>
-<div>
-    {{ listing.title}}
-    <strong>
-        {% if listing.bids == None %}
-        US $<!-- TODO: display current price -->
-        {% else %}
-        US ${{ listing.start_bid }}
-        {% endif %}
-    </strong> 
-    <br>
-    {{ listing.bids.count }}
-    {% if listing.bids.count == 0 or listing.bids.count == 1 %} 
-        bid
-    {% else %}
-        bids
-    {% endif %}
-    <br>
-    {{ listing.description }}
+{% if message %}
+    <p>{{ message }}</p>
+{% endif %}
+<section>
+    <div>
+        <img src="{{ listing.image }}" alt="Picture of shovel" style="width:300px">
     </div>
-</div>
+    <div>
+        {{ listing.title }}
+        <br>
+        <strong>
+            {% if listing.bids == None %}
+            US $<!-- TODO: display current price -->
+            {% else %}
+            US ${{ listing.start_bid }}
+            {% endif %}
+        </strong> 
+        <br>
+        {{ listing.bids.count }}
+        {% if listing.bids.count == 0 or listing.bids.count == 1 %} 
+            bid
+        {% else %}
+            bids
+        {% endif %}
+        <br>
+        {{ listing.description }}
+        </div>
+        <div>
+            {% if listing.active_status %}
+            <p>Active</p>
+            {% else %}
+            <p>Inactive</p>
+            {% endif %}
+            <form action="{% url 'watchlist' listing.id %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="Add to watchlist">
+            </form>
+        </div>
+    </div>
+</section>
 {% endblock body %}

@@ -20,6 +20,14 @@ def listing(request, listing_id):
     })
 
 
+def watchlist(request, listing_id):
+    if request.method == "POST":
+        listing = Listing.objects.get(pk=listing_id)
+        user = request.user.id
+        listing.watchlist.add(user)
+    return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
+
+
 def login_view(request):
     if request.method == "POST":
         

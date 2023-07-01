@@ -65,6 +65,7 @@ class Listing(models.Model):
     time = models.OneToOneField(Time, on_delete=models.CASCADE)
     condition = models.ForeignKey(Condition, on_delete=models.SET_NULL, null=True, related_name='listings')
     active_status = models.BooleanField(default=True)
+    watchlist = models.ManyToManyField(User, blank=True, related_name="watching_users")
     
     
     def __str__(self):
