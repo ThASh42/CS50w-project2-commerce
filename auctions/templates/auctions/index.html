@@ -2,6 +2,16 @@
 
 {% block body %}
     <h2>Active Listings</h2>
-
-    TODO
+    {% for listing in listings %}
+    <section>
+        {% if listing.image %}
+        <div>
+            <img src="{{ listing.image }}" alt="Picture of shovel" style="width:300px">
+        </div>
+        {% endif %}
+        <div>
+            {{listing.print_listing | safe }}
+        </div>
+    </section>
+    {% endfor %}
 {% endblock %}
