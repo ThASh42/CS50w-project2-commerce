@@ -10,7 +10,23 @@
         </div>
         {% endif %}
         <div>
-            {{listing.print_listing | safe }}
+            {{ listing.title }} <br>
+            <strong>
+                {% if listing.bids == None %}
+                US $<!-- TODO: display current price -->
+                {% else %}
+                US ${{ listing.start_bid }}
+                {% endif %}
+            </strong> 
+            <br>
+            {{ listing.bids.count }}
+            {% if listing.bids.count == 0 or listing.bids.count == 1 %} 
+                bid
+            {% else %}
+                bids
+            {% endif %}
+            <br>
+            {{ listing.description }}
         </div>
     </section>
     {% endfor %}

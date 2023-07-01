@@ -60,14 +60,6 @@ class Listing(models.Model):
     condition = models.ForeignKey(Condition, on_delete=models.SET_NULL, null=True, related_name='listings')
     
     
-    def print_listing(self):
-        bid_plural = "bids" if self.bids.count() != 1 else "bid"
-        return f"""{self.title} <br> 
-        <strong> US ${self.start_bid} </strong> <br>
-        {self.bids.count()} {bid_plural}
-        """
-    
-    
     def __str__(self):
         return self.title
 
