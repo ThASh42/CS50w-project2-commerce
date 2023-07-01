@@ -49,8 +49,14 @@ class Condition(models.Model):
         return dict(Condition.CONDITION_CHOICES).get(self.name, self.name)
 
 
+# * User model
+class User(AbstractUser):
+    pass
+
+
 # * Listing model
 class Listing(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owner")
     title = models.CharField(max_length=64)
     description = models.TextField()
     start_bid = models.DecimalField(max_digits=10, decimal_places=2)
@@ -58,13 +64,8 @@ class Listing(models.Model):
     bids = models.ManyToManyField(Bid, blank=True, related_name="bids")
     time = models.OneToOneField(Time, on_delete=models.CASCADE)
     condition = models.ForeignKey(Condition, on_delete=models.SET_NULL, null=True, related_name='listings')
+    active_status = models.BooleanField(default=True)
     
     
     def __str__(self):
         return self.title
-
-
-# * User model
-class User(AbstractUser):
-    listings = models.ManyToManyField(Listing, blank=True, related_name="listings")
-    pass
