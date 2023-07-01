@@ -1,0 +1,27 @@
+{% extends 'auctions/layout.html' %}
+
+{% block body %}
+<div>
+    <img src="{{ listing.image }}" alt="Picture of shovel" style="width:300px">
+</div>
+<div>
+    {{ listing.title}}
+    <strong>
+        {% if listing.bids == None %}
+        US $<!-- TODO: display current price -->
+        {% else %}
+        US ${{ listing.start_bid }}
+        {% endif %}
+    </strong> 
+    <br>
+    {{ listing.bids.count }}
+    {% if listing.bids.count == 0 or listing.bids.count == 1 %} 
+        bid
+    {% else %}
+        bids
+    {% endif %}
+    <br>
+    {{ listing.description }}
+    </div>
+</div>
+{% endblock body %}

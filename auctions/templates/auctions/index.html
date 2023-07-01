@@ -6,11 +6,13 @@
     <section>
         {% if listing.image %}
         <div>
-            <img src="{{ listing.image }}" alt="Picture of shovel" style="width:300px">
+            <a href="{% url 'listing' listing.id %}">
+                <img src="{{ listing.image }}" alt="Picture of shovel" style="width:300px">
+            </a>
         </div>
         {% endif %}
         <div>
-            {{ listing.title }} <br>
+            <a href="{% url 'listing' listing.id %}">{{ listing.title }} </a><br>
             <strong>
                 {% if listing.bids == None %}
                 US $<!-- TODO: display current price -->
