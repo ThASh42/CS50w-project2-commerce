@@ -15,8 +15,11 @@ def index(request):
 
 def listing(request, listing_id):
     listing = Listing.objects.get(pk=listing_id)
+    user_id = request.user.id
+    is_watching = request.user in listing.watchlist.all()
     return render(request, "auctions/listing.html", {
         "listing": listing,
+        "is_watching": is_watching,
     })
 
 
@@ -26,6 +29,15 @@ def watchlist(request, listing_id):
         user = request.user.id
         listing.watchlist.add(user)
     return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
+
+
+
+def delete_watchlist(request, listing_id):
+    if request.method == "POST":
+        listing = Listing.objects.get(pk=listing_id)
+        user = request.user.id
+        listing.watchlist.remove(user)
+        return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
 
 def my_watchlist(request):

@@ -34,10 +34,18 @@
             {% else %}
             <p>Inactive</p>
             {% endif %}
+
+            {% if not is_watching %}
             <form action="{% url 'watchlist' listing.id %}" method="POST">
                 {% csrf_token %}
                 <input type="submit" value="Add to watchlist">
             </form>
+            {% else %}
+            <form action="{% url 'delete_watchlist' listing.id %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="Unwatch">
+            </form>
+            {% endif %}
         </div>
     </div>
 </section>
