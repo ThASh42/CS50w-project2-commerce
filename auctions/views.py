@@ -23,6 +23,46 @@ def listing(request, listing_id):
     })
 
 
+def create(request):
+    if request.method == "GET":
+        CONDITION_CHOICES = {
+        'new': 'Brand New',
+        'opened': 'Opened',
+        'used': 'Used',
+        'not_working': 'Not working',
+        }
+        return render(request, "auctions/create.html", {
+            "conditions": CONDITION_CHOICES,
+        })
+    if request.method == "POST":
+        # Get the input data
+        title = request.POST["title"]
+        start_bid = request.POST["start-bid"]
+        image_url = request.POST["image-url"]
+        description = request.POST["description"]
+        
+        condition_name = request.POST["condition"]
+        condition = Condition.objects.get(name = condition_name)
+        
+        time = Time()
+        time.save()
+        
+        user = request.user
+        # Create listing
+        listing = Listing(
+            owner = user,
+            title = title,
+            description = description,
+            start_bid = start_bid,
+            image = image_url,
+            condition = condition,
+            time = time,
+        )
+        listing.save()
+        
+        return HttpResponseRedirect(reverse("index"))
+
+
 def watchlist(request, listing_id):
     if request.method == "POST":
         listing = Listing.objects.get(pk=listing_id)

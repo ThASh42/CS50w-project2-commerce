@@ -1,0 +1,30 @@
+{% extends 'auctions/layout.html' %}
+
+{% block body %}
+<form action="{% url 'create' %}" method='POST'>
+    {% csrf_token %}
+    <div>
+        <h2><label for="create-title">Title:</label></h2> 
+        <input name="title" id="create-title" type="text" placeholder="Title" autocomplete="off" required>
+    </div>
+    <div>
+        <h2><label for="create-bid">Starting bid:</label></h2> 
+        <input name="start-bid" id="create-bid" type="text" placeholder="Starting bid" autocomplete="off" required>
+    </div>
+    <div>
+        <h2><label for="create-description">Description:</label></h2> 
+        <textarea name="description" id="create-description" cols="30" rows="10" placeholder="Description" required></textarea>
+    </div>
+    <div>
+        <h2><label for="create-image">image URL:</label></h2> 
+        <input name="image-url" id="create-image" type="url" placeholder="image URL" autocomplete="off">
+    </div>
+    <div>
+        <select name="condition">
+            {% for condition_key, condition_value in conditions.items %}
+            <option value="{{ condition_key }}">{{ condition_value }}</option>
+            {% endfor %}
+        </select>
+    <input type="submit" value="Create Listing">
+</form>
+{% endblock body %}
