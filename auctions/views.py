@@ -28,6 +28,14 @@ def watchlist(request, listing_id):
     return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
 
+def my_watchlist(request):
+    user_id = request.user.id
+    listings = Listing.objects.filter(watchlist__id=user_id)
+    return render(request, "auctions/watchlist.html", {
+        "listings": listings
+    })
+
+
 def login_view(request):
     if request.method == "POST":
         
