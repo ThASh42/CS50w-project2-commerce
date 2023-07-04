@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .models import *
-from .utilities import CONDITION_CHOICES
+from .utilities import CONDITION_CHOICES, CATEGORY_CHOICES
 
 def index(request):
     return render(request, "auctions/index.html", {
@@ -26,6 +26,7 @@ def create(request):
     if request.method == "GET":
         return render(request, "auctions/create.html", {
             "conditions": CONDITION_CHOICES,
+            "categories": CATEGORY_CHOICES,
         })
     if request.method == "POST":
         # Get the input data
