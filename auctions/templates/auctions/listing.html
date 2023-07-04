@@ -49,4 +49,14 @@
         </div>
     </div>
 </section>
+<section>
+    <h2>Comments</h2>
+    <div>
+        <form action="{% url 'comment' listing.id %}" method="POST">
+            {% csrf_token %}
+            <input name="message" type="text" placeholder="Add comment...">
+            <input type="submit" value="Comment">
+        </form>
+    </div>
+</section>
 {% endblock body %}

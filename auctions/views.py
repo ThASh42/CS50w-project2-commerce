@@ -82,6 +82,25 @@ def my_watchlist(request):
     })
 
 
+def comment(request, listing_id):
+    if request.method == "POST":
+        
+        # Get the input data
+        user = request.user
+        user_comment = request.POST["message"]
+        
+        comment = Comment(
+            commentator = user,
+            message = user_comment,
+        )
+        comment.save()
+        
+        listing = Listing.objects.get(pk=listing_id)
+        listing.comments.add(comment)
+        
+        return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
+
+
 def login_view(request):
     if request.method == "POST":
         
