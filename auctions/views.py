@@ -15,7 +15,6 @@ def index(request):
 
 def listing(request, listing_id):
     listing = Listing.objects.get(pk=listing_id)
-    user_id = request.user.id
     is_watching = request.user in listing.watchlist.all()
     return render(request, "auctions/listing.html", {
         "listing": listing,
