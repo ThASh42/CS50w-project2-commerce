@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from .utilities import CONDITION_CHOICES
 
 # * Bid class
 class Bid(models.Model):
@@ -13,15 +14,18 @@ class Time(models.Model):
     update_time = models.DateField(auto_now=True)
     creation_time = models.DateField(auto_now=True)
     
+    
     # provide "st", "nd", "rd" or "th"  suffix
     def provide_suffix(self, someday):
         return "th" if 11 <= someday <= 13 else {1: "st", 2: "nd", 3: "rd"}.get(someday % 10, "th")
+    
     
     # the function displays the creation time
     def print_creation_time(self):
         day = self.creation_time.day
         suffix = self.provide_suffix(day)
         return self.creation_time.strftime(f"%B %d{suffix}, %Y")
+    
     
     # the function displays the update time
     def print_update_time(self):
@@ -36,17 +40,11 @@ class Time(models.Model):
 
 # * Model of conditions
 class Condition(models.Model):
-    CONDITION_CHOICES = [
-        ('new', 'Brand New'),
-        ('opened', 'Opened'),
-        ('used', 'Used'),
-        ("not_working", 'Not working')
-    ]
-    
-    name = models.CharField(max_length=64, choices=CONDITION_CHOICES)
+    choices = CONDITION_CHOICES
+    name = models.CharField(max_length=64, choices=choices)
     
     def __str__(self):
-        return dict(Condition.CONDITION_CHOICES).get(self.name, self.name)
+        return dict(Condition.choices).get(self.name, self.name)
 
 
 # * User model

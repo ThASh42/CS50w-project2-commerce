@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .models import *
-
+from .utilities import CONDITION_CHOICES
 
 def index(request):
     return render(request, "auctions/index.html", {
@@ -25,12 +25,6 @@ def listing(request, listing_id):
 
 def create(request):
     if request.method == "GET":
-        CONDITION_CHOICES = {
-        'new': 'Brand New',
-        'opened': 'Opened',
-        'used': 'Used',
-        'not_working': 'Not working',
-        }
         return render(request, "auctions/create.html", {
             "conditions": CONDITION_CHOICES,
         })

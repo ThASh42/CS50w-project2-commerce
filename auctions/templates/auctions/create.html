@@ -21,7 +21,7 @@
     </div>
     <div>
         <select name="condition">
-            {% for condition_key, condition_value in conditions.items %}
+            {% for condition_key, condition_value in conditions %}
             <option value="{{ condition_key }}">{{ condition_value }}</option>
             {% endfor %}
         </select>
