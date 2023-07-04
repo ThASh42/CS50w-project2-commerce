@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from .utilities import CONDITION_CHOICES
+from .utilities import CONDITION_CHOICES, CATEGORY_CHOICES
 
 # * Bid class
 class Bid(models.Model):
@@ -62,6 +62,7 @@ class Listing(models.Model):
     bids = models.ManyToManyField(Bid, blank=True, related_name="bids")
     time = models.OneToOneField(Time, on_delete=models.CASCADE)
     condition = models.ForeignKey(Condition, on_delete=models.SET_NULL, null=True, related_name='listings')
+    category = models.CharField(max_length=64, default=None, null=True, blank=True, choices=CATEGORY_CHOICES)
     active_status = models.BooleanField(default=True)
     watchlist = models.ManyToManyField(User, blank=True, related_name="watching_users")
     
