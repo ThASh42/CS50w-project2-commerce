@@ -16,9 +16,11 @@ def index(request):
 def listing(request, listing_id):
     listing = Listing.objects.get(pk=listing_id)
     is_watching = request.user in listing.watchlist.all()
+    comments = listing.comments.all()
     return render(request, "auctions/listing.html", {
         "listing": listing,
         "is_watching": is_watching,
+        "comments": comments,
     })
 
 

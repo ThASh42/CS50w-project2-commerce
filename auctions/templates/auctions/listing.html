@@ -58,5 +58,14 @@
             <input type="submit" value="Comment">
         </form>
     </div>
+    {% for comment in comments %}
+    <div>
+        <h5><strong>{{ comment.commentator }}</strong>
+            {{ comment.time }}
+            {% if is_modified %} (edited) {% endif %}
+        </h5>
+        <p>{{ comment.message }}</p>
+    </div>
+    {% endfor %}
 </section>
 {% endblock body %}
