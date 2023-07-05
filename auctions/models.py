@@ -52,6 +52,17 @@ class User(AbstractUser):
     pass
 
 
+# * Comment model
+class Comment(models.Model):
+    commentator = models.ForeignKey(User, on_delete=models.CASCADE, related_name="commentator")
+    message = models.TextField(max_length=1000)
+    time = models.DateTimeField(auto_now_add=True)
+    is_modified = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return f"{ self.commentator }, { self.time }"
+
+
 # * Listing model
 class Listing(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owner")
@@ -65,6 +76,7 @@ class Listing(models.Model):
     category = models.CharField(max_length=64, default=None, null=True, blank=True, choices=CATEGORY_CHOICES)
     active_status = models.BooleanField(default=True)
     watchlist = models.ManyToManyField(User, blank=True, related_name="watching_users")
+    comments = models.ManyToManyField(Comment, blank=True, related_name="comments")
     
     
     def __str__(self):

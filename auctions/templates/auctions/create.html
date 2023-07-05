@@ -25,6 +25,14 @@
             <option value="{{ condition_key }}">{{ condition_value }}</option>
             {% endfor %}
         </select>
+    </div>
+    <div>
+        <select name="condition">
+            {% for category_key, category_value in categories %}
+            <option value="{{ category_key }}">{{ category_value }}</option>
+            {% endfor %}
+        </select>
+    </div>
     <input type="submit" value="Create Listing">
 </form>
 {% endblock body %}

@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
@@ -5,7 +6,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .models import *
-from .utilities import CONDITION_CHOICES
+from .utilities import CONDITION_CHOICES, CATEGORY_CHOICES
 
 def index(request):
     return render(request, "auctions/index.html", {
@@ -13,19 +14,30 @@ def index(request):
     })
 
 
+# Display listing page
 def listing(request, listing_id):
     listing = Listing.objects.get(pk=listing_id)
     is_watching = request.user in listing.watchlist.all()
+    
+    # Check if the current user is the owner of the listing
+    owner_id = listing.owner.id
+    is_owner = True if request.user.id == owner_id else False
+    
+    comments = listing.comments.all()
     return render(request, "auctions/listing.html", {
         "listing": listing,
         "is_watching": is_watching,
+        "comments": comments,
+        "is_owner": is_owner,
     })
 
 
+@login_required
 def create(request):
     if request.method == "GET":
         return render(request, "auctions/create.html", {
             "conditions": CONDITION_CHOICES,
+            "categories": CATEGORY_CHOICES,
         })
     if request.method == "POST":
         # Get the input data
@@ -56,6 +68,7 @@ def create(request):
         return HttpResponseRedirect(reverse("index"))
 
 
+@login_required
 def watchlist(request, listing_id):
     if request.method == "POST":
         listing = Listing.objects.get(pk=listing_id)
@@ -64,7 +77,7 @@ def watchlist(request, listing_id):
     return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
 
-
+@login_required
 def delete_watchlist(request, listing_id):
     if request.method == "POST":
         listing = Listing.objects.get(pk=listing_id)
@@ -73,12 +86,33 @@ def delete_watchlist(request, listing_id):
         return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
 
+@login_required
 def my_watchlist(request):
     user_id = request.user.id
     listings = Listing.objects.filter(watchlist__id=user_id)
     return render(request, "auctions/watchlist.html", {
         "listings": listings
     })
+
+
+@login_required
+def comment(request, listing_id):
+    if request.method == "POST":
+        
+        # Get the input data
+        user = request.user
+        user_comment = request.POST["message"]
+        
+        comment = Comment(
+            commentator = user,
+            message = user_comment,
+        )
+        comment.save()
+        
+        listing = Listing.objects.get(pk=listing_id)
+        listing.comments.add(comment)
+        
+        return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
 
 def login_view(request):
