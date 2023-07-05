@@ -29,22 +29,29 @@
         {{ listing.description }}
         </div>
         <div>
+            {% if is_owner %}
+            <strong>Your listing</strong>
+            {% endif %}
+
             {% if listing.active_status %}
             <p>Active</p>
             {% else %}
             <p>Inactive</p>
             {% endif %}
 
-            {% if not is_watching %}
-            <form action="{% url 'watchlist' listing.id %}" method="POST">
-                {% csrf_token %}
-                <input type="submit" value="Add to watchlist">
-            </form>
-            {% else %}
-            <form action="{% url 'delete_watchlist' listing.id %}" method="POST">
-                {% csrf_token %}
-                <input type="submit" value="Unwatch">
-            </form>
+            {% if not is_owner %}
+            <!-- Display watchlist -->
+                {% if not is_watching %}
+                <form action="{% url 'watchlist' listing.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="Add to watchlist">
+                </form>
+                {% else %}
+                <form action="{% url 'delete_watchlist' listing.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="Unwatch">
+                </form>
+                {% endif %}
             {% endif %}
         </div>
     </div>

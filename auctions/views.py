@@ -14,14 +14,21 @@ def index(request):
     })
 
 
+# Display listing page
 def listing(request, listing_id):
     listing = Listing.objects.get(pk=listing_id)
     is_watching = request.user in listing.watchlist.all()
+    
+    # Check if the current user is the owner of the listing
+    owner_id = listing.owner.id
+    is_owner = True if request.user.id == owner_id else False
+    
     comments = listing.comments.all()
     return render(request, "auctions/listing.html", {
         "listing": listing,
         "is_watching": is_watching,
         "comments": comments,
+        "is_owner": is_owner,
     })
 
 
