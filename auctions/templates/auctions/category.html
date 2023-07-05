@@ -1,0 +1,57 @@
+{% extends 'auctions/layout.html' %}
+
+{% block body %}
+
+<h2>Listings by category</h2>
+
+
+<div>
+    <form action="{% url 'category' %}" method="POST">
+        {% csrf_token %}
+        <label for="category_categories"><h3>Choose category</h3></label>
+        <select name="category" id="category_categories">
+            {% for category_value, category_text in categories %}
+            <option value="{{ category_value }}">{{ category_text }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Search">
+    </form>
+
+    {% if selected_category %}
+        {% if listings %}
+            {% for listing in listings %}
+                <section>
+                    {% if listing.image %}
+                    <div>
+                        <a href="{% url 'listing' listing.id %}">
+                            <img src="{{ listing.image }}" alt="Picture of shovel" style="width:300px">
+                        </a>
+                    </div>
+                    {% endif %}
+                    <div>
+                        <a href="{% url 'listing' listing.id %}">{{ listing.title }} </a><br>
+                        <strong>
+                            {% if listing.bids == None %}
+                            US $<!-- TODO: display current price -->
+                            {% else %}
+                            US ${{ listing.start_bid }}
+                            {% endif %}
+                        </strong> 
+                        <br>
+                        {{ listing.bids.count }}
+                        {% if listing.bids.count == 0 or listing.bids.count == 1 %} 
+                            bid
+                        {% else %}
+                            bids
+                        {% endif %}
+                        <br>
+                        {{ listing.description }}
+                    </div>
+                </section>
+            {% endfor %}
+        {% else %}
+                <h4>There is not listings on that category</h4>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock body %}
