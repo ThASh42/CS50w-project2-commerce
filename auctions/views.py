@@ -6,7 +6,8 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .models import *
-from .utilities import CONDITION_CHOICES, CATEGORY_CHOICES
+from .utilities import CONDITION_CHOICES, CATEGORY_CHOICES, get_price, check_user, check_price
+from decimal import Decimal, InvalidOperation
 
 def index(request):
     return render(request, "auctions/index.html", {
@@ -24,12 +25,58 @@ def listing(request, listing_id):
     is_owner = True if request.user.id == owner_id else False
     
     comments = listing.comments.all()
+    
+    current_price = get_price(listing)
+    
+    message = request.GET.get('message')
+    
     return render(request, "auctions/listing.html", {
         "listing": listing,
         "is_watching": is_watching,
         "comments": comments,
         "is_owner": is_owner,
+        "current_price": current_price,
+        "message": message,
     })
+
+
+# Place bid
+@login_required
+def bid(request, listing_id):
+    if request.method == "POST":
+        
+        bid_price = Decimal(request.POST["bid"])
+        
+        listing = Listing.objects.get(pk=listing_id)
+        current_price = get_price(listing)
+        
+        user = request.user
+        
+        has_highest_bid = check_user(listing, user)
+        
+        is_price_bigger = check_price(listing, bid_price)
+        
+        if not has_highest_bid and is_price_bigger:
+            
+            time = Time()
+            time.save()
+            
+            bid = Bid(
+                price = bid_price,
+                time = time,
+                user = user,
+            )
+            bid.save()
+            
+            listing.bids.add(bid)
+            return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
+        else:
+            if has_highest_bid:
+                message = "Your bid is already the highest"
+            else:
+                message = "Your bid price is not suitable"
+            redirect_url = reverse("listing", args=(listing_id,)) + f'?message={message}'
+            return HttpResponseRedirect(redirect_url)
 
 
 # Display listings by category

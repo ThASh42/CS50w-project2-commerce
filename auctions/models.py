@@ -3,11 +3,6 @@ from django.db import models
 
 from .utilities import CONDITION_CHOICES, CATEGORY_CHOICES
 
-# * Bid class
-class Bid(models.Model):
-    bid = models.DecimalField(max_digits=5, decimal_places=2)
-    time = models.DateTimeField()
-
 
 # * Model of update and creation time
 class Time(models.Model):
@@ -61,6 +56,16 @@ class Comment(models.Model):
     
     def __str__(self):
         return f"{ self.commentator }, { self.time }"
+
+
+# * Bid class
+class Bid(models.Model):
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    time = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
+    
+    def __str__(self):
+        return f"{ self.user.id }: { self.price }; { self.time }"
 
 
 # * Listing model

@@ -4,59 +4,78 @@
 {% if message %}
     <p>{{ message }}</p>
 {% endif %}
-<section>
-    <div>
-        <img src="{{ listing.image }}" alt="Picture of shovel" style="width:300px">
-    </div>
-    <div>
-        {{ listing.title }}
-        <br>
-        <strong>
-            {% if listing.bids == None %}
-            US $<!-- TODO: display current price -->
-            {% else %}
-            US ${{ listing.start_bid }}
-            {% endif %}
-        </strong> 
-        <br>
-        {{ listing.bids.count }}
-        {% if listing.bids.count == 0 or listing.bids.count == 1 %} 
-            bid
-        {% else %}
-            bids
-        {% endif %}
-        <br>
-        {{ listing.description }}
+<main>
+    <section> <!-- Display information -->
+        <div>
+            <img src="{{ listing.image }}" alt="Picture of shovel" style="width:300px">
         </div>
         <div>
-            {% if is_owner %}
-            <strong>Your listing</strong>
-            {% endif %}
+        {% if is_owner %}
+        <strong>Your listing</strong>
+        <br>
+        {% endif %}
 
-            {% if listing.active_status %}
-            <p>Active</p>
+        {{ listing.title }}
+        <br>
+        {{ listing.description }}
+
+        {% if listing.active_status %}
+        <p>Status: Active</p>
+        {% else %}
+        <p>Status: Inactive</p>
+        {% endif %}
+        </div>
+        <hr>
+    </section>
+    <section>
+        {% if not is_owner %}
+        <div>
+            {% if not listing.bids.count == 0 %} <!-- Display price -->
+            <div>
+                <h6>Current price:</h6>
+                <h4><strong>US ${{ current_price }}</strong></h4>
+            </div>
             {% else %}
-            <p>Inactive</p>
+            <div>
+                <h6>Start bid:</h6>
+                <h4><strong>US ${{ current_price }} </strong></h4>
+            </div>
             {% endif %}
-
-            {% if not is_owner %}
-            <!-- Display watchlist -->
-                {% if not is_watching %}
-                <form action="{% url 'watchlist' listing.id %}" method="POST">
-                    {% csrf_token %}
-                    <input type="submit" value="Add to watchlist">
-                </form>
+            <div> <!-- Display the ammout of bids -->
+                {{ listing.bids.count }}
+                {% if listing.bids.count == 1 %} 
+                    bid
                 {% else %}
-                <form action="{% url 'delete_watchlist' listing.id %}" method="POST">
-                    {% csrf_token %}
-                    <input type="submit" value="Unwatch">
-                </form>
+                    bids
                 {% endif %}
+            </div>
+        </div>
+        <div>
+            <!-- Input bid -->
+            <form action="{% url 'bid' listing.id %}", method="POST">
+                {% csrf_token %}
+                <input name="bid" type="number" step= 0.01 placeholder="Bid">
+                <input type="submit" value="Place bid">
+            </form>
+            <!-- Display watchlist -->
+            {% if not is_watching %}
+            <form action="{% url 'watchlist' listing.id %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="Add to watchlist">
+            </form>
+            {% else %}
+            <form action="{% url 'delete_watchlist' listing.id %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="Unwatch">
+            </form>
             {% endif %}
         </div>
-    </div>
-</section>
-<section>
+        {% endif %}
+    </section>
+    <hr>
+</main>
+
+<main>
     <h2>Comments</h2>
     <div>
         <form action="{% url 'comment' listing.id %}" method="POST">
@@ -74,5 +93,5 @@
         <p>{{ comment.message }}</p>
     </div>
     {% endfor %}
-</section>
+</main>
 {% endblock body %}
