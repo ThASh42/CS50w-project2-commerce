@@ -18,7 +18,6 @@
         {{ listing.title }}
         <br>
         {{ listing.description }}
-
         {% if listing.active_status %}
         <p>Status: Active</p>
         {% else %}
@@ -70,6 +69,11 @@
             </form>
             {% endif %}
         </div>
+        {% else %}
+        <form action="{% url 'status' listing.id %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Change status">
+        </form>
         {% endif %}
     </section>
     <hr>

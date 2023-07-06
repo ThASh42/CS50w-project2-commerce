@@ -40,6 +40,19 @@ def listing(request, listing_id):
     })
 
 
+def status(request, listing_id):
+    if request.method == "POST":
+        listing = Listing.objects.get(pk=listing_id)
+        if request.user.id == listing.owner.id:
+            listing.active_status = not listing.active_status
+            listing.save()
+            return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
+        else:
+            message = "You are not the owner of that listing"
+            redirect_url = reverse("listing", args=(listing_id,)) + f'?message={ message }'
+            return HttpResponseRedirect(redirect_url)
+
+
 # Place bid
 @login_required
 def bid(request, listing_id):
