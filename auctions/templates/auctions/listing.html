@@ -30,15 +30,15 @@
     <section>
         {% if not is_owner %}
         <div>
-            {% if not listing.bids %} <!-- Display price -->
+            {% if not listing.bids.count == 0 %} <!-- Display price -->
             <div>
-                <h6>Current bid:</h6>
-                <h4><strong>US ${{ listing.start_bid }}</strong></h4>
+                <h6>Current price:</h6>
+                <h4><strong>US ${{ current_price }}</strong></h4>
             </div>
             {% else %}
             <div>
                 <h6>Start bid:</h6>
-                <h4><strong>US $ {{ best_bid }} </strong></h4>
+                <h4><strong>US ${{ current_price }} </strong></h4>
             </div>
             {% endif %}
             <div> <!-- Display the ammout of bids -->

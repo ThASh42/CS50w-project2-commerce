@@ -27,3 +27,31 @@ CATEGORY_CHOICES = [
     ('musical_instruments', 'Musical Instruments'),
     ('pet_supplies', 'Pet Supplies'),
 ]
+
+
+# Get current price
+def get_price(listing):
+    if listing.bids.exists():
+        bid = listing.bids.order_by('-price').first()
+        return bid.price
+    else:
+        return listing.start_bid
+
+
+# Check if the bid price is higher than the highest current price
+# or if the bid price is higher or equal to the starter price
+def check_price(listing, bid_price):
+    if listing.bids.exists():
+        highest_bid = listing.bids.order_by('-price').first()
+        return bid_price > highest_bid.price
+    else:
+        return bid_price >= listing.start_bid
+
+
+# Check if the user already has the highest bid
+def check_user(listing, user):
+    if listing.bids.exists():
+        highest_bid = listing.bids.order_by('-price').first()
+        return True if highest_bid.user.id == user.id else False
+    else:
+        return False
