@@ -53,6 +53,15 @@ def status(request, listing_id):
             return HttpResponseRedirect(redirect_url)
 
 
+@login_required
+def my_listings(request):
+    if request.method == "GET":
+        listings = Listing.objects.filter(owner = request.user)
+        return render(request, "auctions/my.html", {
+                "listings": listings
+            })
+
+
 # Place bid
 @login_required
 def bid(request, listing_id):
