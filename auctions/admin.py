@@ -4,9 +4,9 @@ from .models import *
 
 
 class ListingAdmin(admin.ModelAdmin):
-    list_display = ["owner", "title", "condition", "category", "active_status"]
-    list_editable = ["condition", "category"]
-    filter_horizontal = ("comments",)
+    list_display = ["owner", "title", "condition", "category", 
+                    "active_status", "winner"]
+    list_editable = ["condition", "category", "active_status",]
 
 
 admin.site.register(User)

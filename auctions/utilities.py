@@ -29,6 +29,14 @@ CATEGORY_CHOICES = [
 ]
 
 
+# Status of listing
+STATUS_CHOICES = [
+    ("active", 'Active'),
+    ('inactive', 'Inactive'),
+    ('closed', 'Closed'),
+]
+
+
 # Get current price
 def get_price(listing):
     if listing.bids.exists():

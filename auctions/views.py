@@ -13,7 +13,7 @@ from decimal import Decimal, InvalidOperation
 # Display active listings
 def index(request):
     return render(request, "auctions/index.html", {
-        "listings": Listing.objects.filter(active_status=True)
+        "listings": Listing.objects.filter(active_status="active")
     })
 
 
@@ -45,8 +45,13 @@ def listing(request, listing_id):
 # Change status of listing
 def status(request, listing_id):
     if request.method == "POST":
+        
         listing = Listing.objects.get(pk=listing_id)
-        listing.active_status = not listing.active_status
+        if listing.active_status == "active":
+            listing.active_status = "inactive"
+        elif listing.active_status == "inactive":
+            listing.active_status = "active"
+        
         listing.save()
         return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
@@ -55,10 +60,10 @@ def status(request, listing_id):
 def close_auction(request, listing_id):
     if request.method == "POST":
         listing = Listing.objects.get(pk=listing_id)
-        listing.closed = True
         
         highest_bid = listing.bids.order_by('-price').first()
         listing.winner = highest_bid.user
+        listing.active_status = "closed"
         
         listing.save()
         return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
