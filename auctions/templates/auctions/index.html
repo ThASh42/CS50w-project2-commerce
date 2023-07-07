@@ -1,35 +1,8 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+
     <h2>Active Listings</h2>
-    {% for listing in listings %}
-    <section>
-        {% if listing.image %}
-        <div>
-            <a href="{% url 'listing' listing.id %}">
-                <img src="{{ listing.image }}" alt="Picture of shovel" style="width:300px">
-            </a>
-        </div>
-        {% endif %}
-        <div>
-            <a href="{% url 'listing' listing.id %}">{{ listing.title }} </a><br>
-            <strong>
-                {% if listing.bids == None %}
-                US $<!-- TODO: display current price -->
-                {% else %}
-                US ${{ listing.start_bid }}
-                {% endif %}
-            </strong> 
-            <br>
-            {{ listing.bids.count }}
-            {% if listing.bids.count == 0 or listing.bids.count == 1 %} 
-                bid
-            {% else %}
-                bids
-            {% endif %}
-            <br>
-            {{ listing.description }}
-        </div>
-    </section>
-    {% endfor %}
+    {% include "auctions/listing_section.html" %}
+
 {% endblock %}
