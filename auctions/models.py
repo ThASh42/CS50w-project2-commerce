@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from .utilities import CONDITION_CHOICES, CATEGORY_CHOICES
+from .utilities import CONDITION_CHOICES, CATEGORY_CHOICES, STATUS_CHOICES
 
 
 # * Model of update and creation time
@@ -79,10 +79,10 @@ class Listing(models.Model):
     time = models.OneToOneField(Time, on_delete=models.CASCADE)
     condition = models.ForeignKey(Condition, on_delete=models.SET_NULL, null=True, related_name='listings')
     category = models.CharField(max_length=64, default=None, null=True, blank=True, choices=CATEGORY_CHOICES)
-    active_status = models.BooleanField(default=True)
+    active_status = models.CharField(max_length=16, default="active", choices=STATUS_CHOICES)
     watchlist = models.ManyToManyField(User, blank=True, related_name="watching_users")
     comments = models.ManyToManyField(Comment, blank=True, related_name="comments")
-    
+    winner = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, default=None, null=True)
     
     def __str__(self):
         return self.title
