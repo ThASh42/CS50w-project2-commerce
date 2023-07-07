@@ -27,7 +27,7 @@
         <hr>
     </section>
     <section>
-        {% if not is_owner %}
+        {% if not is_owner %} <!-- If user is not owner -->
         <div>
             {% if not listing.bids.count == 0 %} <!-- Display price -->
             <div>
@@ -51,11 +51,13 @@
         </div>
         <div>
             <!-- Input bid -->
+            {% if not listing.closed %}
             <form action="{% url 'bid' listing.id %}", method="POST">
                 {% csrf_token %}
                 <input name="bid" type="number" step= 0.01 placeholder="Bid">
                 <input type="submit" value="Place bid">
             </form>
+            {% endif %}
             <!-- Display watchlist -->
             {% if not is_watching %}
             <form action="{% url 'watchlist' listing.id %}" method="POST">
@@ -69,11 +71,17 @@
             </form>
             {% endif %}
         </div>
-        {% else %}
+        {% else %} <!-- If user is owner -->
+        {% if not listing.closed %}
         <form action="{% url 'status' listing.id %}" method="POST">
             {% csrf_token %}
             <input type="submit" value="Change status">
         </form>
+        <form action="{% url 'close_auction' listing.id %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Close auction">
+        </form>
+        {% endif %}
         {% endif %}
     </section>
     <hr>

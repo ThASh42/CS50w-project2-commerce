@@ -82,7 +82,8 @@ class Listing(models.Model):
     active_status = models.BooleanField(default=True)
     watchlist = models.ManyToManyField(User, blank=True, related_name="watching_users")
     comments = models.ManyToManyField(Comment, blank=True, related_name="comments")
-    
+    closed = models.BooleanField(default=False)
+    winner = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, default=None, null=True)
     
     def __str__(self):
         return self.title

@@ -51,6 +51,19 @@ def status(request, listing_id):
         return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
 
+# Close auction
+def close_auction(request, listing_id):
+    if request.method == "POST":
+        listing = Listing.objects.get(pk=listing_id)
+        listing.closed = True
+        
+        highest_bid = listing.bids.order_by('-price').first()
+        listing.winner = highest_bid.user
+        
+        listing.save()
+        return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
+
+
 # Display your own listings
 @login_required
 def my_listings(request):
