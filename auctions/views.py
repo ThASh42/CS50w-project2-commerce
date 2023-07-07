@@ -9,6 +9,8 @@ from .models import *
 from .utilities import CONDITION_CHOICES, CATEGORY_CHOICES, get_price, check_user, check_price
 from decimal import Decimal, InvalidOperation
 
+
+# Display active listings
 def index(request):
     return render(request, "auctions/index.html", {
         "listings": Listing.objects.filter(active_status=True)
@@ -40,6 +42,7 @@ def listing(request, listing_id):
     })
 
 
+# Change status of listing
 def status(request, listing_id):
     if request.method == "POST":
         listing = Listing.objects.get(pk=listing_id)
@@ -53,6 +56,7 @@ def status(request, listing_id):
             return HttpResponseRedirect(redirect_url)
 
 
+# Display your own listings
 @login_required
 def my_listings(request):
     if request.method == "GET":
@@ -119,6 +123,7 @@ def category(request):
         })
 
 
+# Create listing
 @login_required
 def create(request):
     if request.method == "GET":
@@ -155,6 +160,7 @@ def create(request):
         return HttpResponseRedirect(reverse("index"))
 
 
+# Add listing to watchlist
 @login_required
 def watchlist(request, listing_id):
     if request.method == "POST":
@@ -164,6 +170,7 @@ def watchlist(request, listing_id):
     return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
 
+# Delete listing from watchlist
 @login_required
 def delete_watchlist(request, listing_id):
     if request.method == "POST":
@@ -182,6 +189,7 @@ def my_watchlist(request):
     })
 
 
+# Add comment to the listing
 @login_required
 def comment(request, listing_id):
     if request.method == "POST":
