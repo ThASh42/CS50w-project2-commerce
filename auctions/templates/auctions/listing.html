@@ -32,6 +32,9 @@
     <section>
         {% if not is_owner %} <!-- If user is not owner -->
         <div>
+            {% if request.user.id == listing.winner.id %}
+                <strong>You have won the auction!</strong><br>
+            {% endif %}
             {% if not listing.bids.count == 0 %} <!-- Display price -->
             <div>
                 <h6>Current price:</h6>
