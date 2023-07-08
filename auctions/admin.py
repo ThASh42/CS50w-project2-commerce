@@ -13,7 +13,23 @@ class ListingAdmin(admin.ModelAdmin):
     
     readonly_fields = ["bids", "time", "winner",]
     
-    fields = ["owner", "title", "description", "start_bid", "image", "condition", "category",]
+    def get_fieldsets(self, request, obj=None):
+        if obj:
+            # Fields to display when editing an existing listing
+            fieldsets = (
+                ('Edit Listing', {
+                    'fields': ('owner', 'title', 'description', 'start_bid', 'image', 'condition', 'category', 'active_status', 'watchlist', 'comments')
+                }),
+            )
+        else:
+            # Fields to display when adding a new listing
+            fieldsets = (
+                ('Add Listing', {
+                    'fields': ('owner', 'title', 'description', 'start_bid', 'image', 'condition', 'category')
+                }),
+            )
+        
+        return fieldsets
 
 
 class BidAdmin(admin.ModelAdmin):
@@ -32,8 +48,28 @@ class TimeAdmin(admin.ModelAdmin):
         return False
 
 
+class CommentAdmin(admin.ModelAdmin):
+    def get_fieldsets(self, request, obj=None):
+        if obj:
+            # Fields to display when editing an existing listing
+            fieldsets = (
+                ('Edit Comment', {
+                    'fields': ("commentator", "message", "is_modified",)
+                }),
+            )
+        else:
+            # Fields to display when adding a new listing
+            fieldsets = (
+                ('Add Comment', {
+                    'fields': ("commentator", "message",)
+                }),
+            )
+        
+        return fieldsets
+
+
 admin.site.register(User)
 admin.site.register(Listing, ListingAdmin)
 admin.site.register(Bid, BidAdmin)
 admin.site.register(Time, TimeAdmin)
-admin.site.register(Comment)
+admin.site.register(Comment, CommentAdmin)
