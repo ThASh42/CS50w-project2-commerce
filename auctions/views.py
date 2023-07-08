@@ -61,6 +61,39 @@ def listing(request, listing_id):
     })
 
 
+# Edit listing
+def listing_edit(request, listing_id):
+    if request.method == "GET":
+        
+        listing = Listing.objects.get(pk=listing_id)
+        
+        return render(request, "auctions/listing_edit.html", {
+            "conditions": CONDITION_CHOICES,
+            "categories": CATEGORY_CHOICES,
+            "listing": listing,
+        })
+    if request.method == "POST":
+        
+        listing = Listing.objects.get(pk=listing_id)
+        
+        # Update listing data
+        title = request.POST["title"]
+        listing.title = title
+        if "start-bid" in request:
+            start_bid = request.POST["start-bid"]
+            listing.start_bid = start_bid
+        description = request.POST["description"]
+        listing.description = description
+        image_url = request.POST["image-url"]
+        listing.image_url = image_url
+        condition = request.POST["condition"]
+        listing.condition = condition
+        category = request.POST["category"]
+        listing.category = category
+        
+        listing.save()
+        return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
+
 # Change status of listing
 def status(request, listing_id):
     if request.method == "POST":
