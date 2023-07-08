@@ -151,9 +151,8 @@ def create(request):
         start_bid = request.POST["start-bid"]
         image_url = request.POST["image-url"]
         description = request.POST["description"]
-        
-        condition_name = request.POST["condition"]
-        condition = Condition.objects.get(name = condition_name)
+        condition = request.POST["condition"]
+        category = request.POST["category"]
         
         time = Time()
         time.save()
@@ -168,6 +167,7 @@ def create(request):
             image = image_url,
             condition = condition,
             time = time,
+            category = category,
         )
         listing.save()
         
