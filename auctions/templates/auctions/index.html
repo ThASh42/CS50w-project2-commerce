@@ -1,8 +1,30 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+    <div>
+        <h2>Active Listings</h2>
+        <form action="{% url 'index' %}" method="POST">
+            {% csrf_token %}
+            <input name="search" type="text" placeholder="Search for anything">
+            <select name="category" id="search_categories">
+                <option value="all" selected>All Categories</option>
+                
+                {% for category_value, category_text in categories %}
+                    {% if category_value == selected_category and selected_category %} <!-- Set the option to be selected if it is searched category -->
+                        <option value="{{ category_value }}" selected>{{ category_text }}</option>
+                    {% else %}
+                        <option value="{{ category_value }}">{{ category_text }}</option>
+                    {% endif %}
+                {% endfor %}
 
-    <h2>Active Listings</h2>
-    {% include "auctions/listing_section.html" %}
+            </select>
+            <input type="submit" value="Search">
+        </form>
+    </div>
+    {% if listings.exists %}
+        {% include "auctions/listing_section.html" %}
+    {% else %}
+        <h4>There are no listings</h4>
+    {% endif %}
 
 {% endblock %}
