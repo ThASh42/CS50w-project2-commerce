@@ -12,9 +12,28 @@ from decimal import Decimal, InvalidOperation
 
 # Display active listings
 def index(request):
-    return render(request, "auctions/index.html", {
-        "listings": Listing.objects.filter(active_status="active")
-    })
+    if request.method == "GET":
+        return render(request, "auctions/index.html", {
+            "listings": Listing.objects.filter(active_status="active"),
+            "categories": CATEGORY_CHOICES,
+        })
+    elif request.method == "POST": # Search result
+        category = request.POST["category"]
+        search = request.POST["search"]
+        if not category == "all" or not search == "":
+            
+            if category == "all":
+                listings = Listing.objects.filter(active_status="active", title__icontains=search)
+            else:
+                listings = Listing.objects.filter(active_status="active", category=category, title__icontains=search)
+            
+            return render(request, "auctions/index.html", {
+                "listings": listings,
+                "categories": CATEGORY_CHOICES,
+                "selected_category": category
+            })
+        else:
+            return HttpResponseRedirect(reverse("index"))
 
 
 # Display listing page
