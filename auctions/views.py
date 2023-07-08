@@ -137,24 +137,6 @@ def bid(request, listing_id):
             return HttpResponseRedirect(redirect_url)
 
 
-# Display listings by category
-def category(request):
-    if request.method == "GET":
-        return render(request, "auctions/category.html", {
-            "categories": CATEGORY_CHOICES,
-        })
-    elif request.method == "POST":
-        
-        selected_category = request.POST["category"]
-        listings = Listing.objects.filter(category=selected_category, active_status=True)
-        
-        return render(request, "auctions/category.html", {
-            "categories": CATEGORY_CHOICES,
-            "selected_category": selected_category,
-            "listings": listings,
-        })
-
-
 # Create listing
 @login_required
 def create(request):

@@ -18,7 +18,6 @@ urlpatterns = [
     
     # Other paths
     path("create", views.create, name="create"),
-    path("category", views.category, name="category"),
     path("my_listings", views.my_listings, name="my_listings"),
     
     # User paths
