@@ -9,7 +9,6 @@ CONDITION_CHOICES = [
 
 # Choices for the category field in the Listing model
 CATEGORY_CHOICES = [
-    (None, 'No category'),
     ('electronics', 'Electronics'),
     ('fashion', 'Fashion'),
     ('home_and_garden', 'Home & Garden'),
@@ -26,6 +25,7 @@ CATEGORY_CHOICES = [
     ('baby_kids', 'Baby & Kids'),
     ('musical_instruments', 'Musical Instruments'),
     ('pet_supplies', 'Pet Supplies'),
+    (None, 'Other'),
 ]
 
 
