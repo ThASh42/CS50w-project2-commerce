@@ -1,0 +1,8 @@
+{% extends 'auctions/layout.html' %}
+
+{% block body %}
+    <form action="{% url 'listing_edit' %}" method="POST">
+        {% include "auctions/listing_input.html" %}
+        <input type="sybmit" value="Edit">
+    </form>
+{% endblock body %}

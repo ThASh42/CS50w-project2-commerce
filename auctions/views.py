@@ -61,6 +61,17 @@ def listing(request, listing_id):
     })
 
 
+# Edit listing
+def edit_listing(request, listing_id):
+    if request.method == "POST":
+        
+        listing = Listing.objects.get(pk=listing_id)
+        
+        return render(request, "auctions/create.html", {
+            "conditions": CONDITION_CHOICES,
+            "categories": CATEGORY_CHOICES,
+        })
+
 # Change status of listing
 def status(request, listing_id):
     if request.method == "POST":

@@ -12,6 +12,10 @@
         <div>
         {% if is_owner %}
         <strong>Your listing</strong>
+        <form action="{% url 'edit_listing' listing.id %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Edit">
+        </form>
         <br>
         {% endif %}
 

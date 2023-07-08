@@ -1,31 +1,44 @@
 {% csrf_token %}
 <div>
     <h2><label for="listing-input-title">Title:</label></h2> 
-    <input name="title" id="listing-input-title" type="text" placeholder="Title" autocomplete="off" required>
+    <input name="title" value="{{ listing.title }}" id="listing-input-title" type="text" placeholder="Title" autocomplete="off" required>
 </div>
 <div>
     <h2><label for="listing-input-bid">Starting bid:</label></h2> 
-    <input name="start-bid" id="listing-input-bid" type="text" placeholder="Starting bid" autocomplete="off" required>
+    {% if not listing.bids.exists %}
+        <input name="start-bid" value="{{ listing.start_bid }}" id="listing-input-bid" type="text" placeholder="Starting bid" autocomplete="off" required>
+    {% else %}
+        <input name="start-bid" value="{{ listing.start_bid }}" id="listing-input-bid" type="text" placeholder="Starting bid" autocomplete="off" required disabled>
+        <p>The starting bid cannot be changed as there are already bids on this listing.</p>
+    {% endif %}
 </div>
 <div>
     <h2><label for="listing-input-description">Description:</label></h2> 
-    <textarea name="description" id="listing-input-description" cols="30" rows="10" placeholder="Description" required></textarea>
+    <textarea name="description" value="" id="listing-input-description" cols="30" rows="10" placeholder="Description" required>{{ listing.description }}</textarea>
 </div>
 <div>
     <h2><label for="listing-input-image">image URL:</label></h2> 
-    <input name="image-url" id="listing-input-image" type="url" placeholder="image URL" autocomplete="off">
+    <input name="image-url" value="{{ listing.image }}" id="listing-input-image" type="url" placeholder="image URL" autocomplete="off">
 </div>
 <div>
     <select name="condition">
-        {% for condition_key, condition_value in conditions %}
-        <option value="{{ condition_key }}">{{ condition_value }}</option>
+        {% for condition_value, condition_text in conditions %}
+            {% if condition_value == listing.condition %}
+                <option value="{{ condition_value }}" selected>{{ condition_text }}</option>
+            {% else %}
+                <option value="{{ condition_value }}">{{ condition_text }}</option>
+            {% endif %}
         {% endfor %}
     </select>
 </div>
 <div>
     <select name="category">
-        {% for category_key, category_value in categories %}
-        <option value="{{ category_key }}">{{ category_value }}</option>
+        {% for category_value, category_text in categories %}
+            {% if category_value == listing.category %}
+                <option value="{{ category_value }}" selected>{{ category_text }}</option>
+            {% else %}
+                <option value="{{ category_value }}">{{ category_text }}</option>
+            {% endif %}
         {% endfor %}
     </select>
 </div>
