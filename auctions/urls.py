@@ -17,7 +17,7 @@ urlpatterns = [
     path("<int:listing_id>/delete-watchlist", views.delete_watchlist, name="delete_watchlist"),
     
     # Other paths
-    path("create", views.create, name="create"),
+    path("create-listing", views.listing_create, name="listing_create"),
     path("my_listings", views.my_listings, name="my_listings"),
     
     # User paths

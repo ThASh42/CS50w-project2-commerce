@@ -139,7 +139,7 @@ def bid(request, listing_id):
 
 # Create listing
 @login_required
-def create(request):
+def listing_create(request):
     if request.method == "GET":
         return render(request, "auctions/create.html", {
             "conditions": CONDITION_CHOICES,

@@ -1,0 +1,31 @@
+{% csrf_token %}
+<div>
+    <h2><label for="listing-input-title">Title:</label></h2> 
+    <input name="title" id="listing-input-title" type="text" placeholder="Title" autocomplete="off" required>
+</div>
+<div>
+    <h2><label for="listing-input-bid">Starting bid:</label></h2> 
+    <input name="start-bid" id="listing-input-bid" type="text" placeholder="Starting bid" autocomplete="off" required>
+</div>
+<div>
+    <h2><label for="listing-input-description">Description:</label></h2> 
+    <textarea name="description" id="listing-input-description" cols="30" rows="10" placeholder="Description" required></textarea>
+</div>
+<div>
+    <h2><label for="listing-input-image">image URL:</label></h2> 
+    <input name="image-url" id="listing-input-image" type="url" placeholder="image URL" autocomplete="off">
+</div>
+<div>
+    <select name="condition">
+        {% for condition_key, condition_value in conditions %}
+        <option value="{{ condition_key }}">{{ condition_value }}</option>
+        {% endfor %}
+    </select>
+</div>
+<div>
+    <select name="category">
+        {% for category_key, category_value in categories %}
+        <option value="{{ category_key }}">{{ category_value }}</option>
+        {% endfor %}
+    </select>
+</div>
