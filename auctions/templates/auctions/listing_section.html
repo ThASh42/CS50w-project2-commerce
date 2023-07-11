@@ -9,16 +9,22 @@
     {% endif %}
     <div>
         <a href="{% url 'listing' listing.id %}">{{ listing.title }} </a><br>
-        <strong>
-            {% if listing.bids == None %}
-            US $<!-- TODO: display current price -->
+        <div>
+            <!-- Display price -->
+            {% if listing.bids.exists %} 
+                <div>
+                    <h6>Current bid:</h6>
+                    <h4><strong>US ${{ listing.bids.first.price }}</strong></h4>
+                </div>
             {% else %}
-            US ${{ listing.start_bid }}
+                <div>
+                    <h6>Starting bid:
+                    <h4><strong>US ${{ listing.start_bid }} </strong></h4>
+                </div>
             {% endif %}
-        </strong> 
-        <br>
+        </div>
         {{ listing.bids.count }}
-        {% if listing.bids.count == 0 or listing.bids.count == 1 %} 
+        {% if listing.bids.count == 1 %} 
             bid
         {% else %}
             bids
@@ -27,4 +33,5 @@
         {{ listing.description }}
     </div>
 </section>
+<br>
 {% endfor %}
