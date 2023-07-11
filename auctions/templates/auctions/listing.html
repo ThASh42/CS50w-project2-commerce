@@ -1,9 +1,11 @@
 {% extends 'auctions/layout.html' %}
 
 {% block body %}
+
 {% if message %}
     <p>{{ message }}</p>
 {% endif %}
+
 <main>
     <section> <!-- Display information -->
         <div>
@@ -112,35 +114,35 @@
         {% endif %}
     </section>
     <hr>
+    <section>
+        <h2>Comments</h2>
+        <div>
+            <form action="{% url 'comment' listing.id %}" method="POST">
+                {% csrf_token %}
+                <input name="message" type="text" placeholder="Add comment...">
+                <input type="submit" value="Comment">
+            </form>
+        </div>
+        {% for comment in comments %}
+            <div>
+                <h5>
+                    <strong>
+                        {{comment.commentator}}
+                        {% if is_owner %} (owner) {% endif %}
+                    </strong>
+                    ∙
+                    {{ comment.time }}
+                    {% if comment.is_modified %} (edited) {% endif %}
+                </h5>
+                {% if request.user.id == comment.commentator.id %}
+                    <form action="{% url 'comment_edit' listing.id comment.id %}">
+                        <input type="submit" value="Edit">
+                    </form>
+                {% endif %}
+                <p>{{ comment.message }}</p>
+            </div>
+        {% endfor %}
+    </section>
 </main>
 
-<main>
-    <h2>Comments</h2>
-    <div>
-        <form action="{% url 'comment' listing.id %}" method="POST">
-            {% csrf_token %}
-            <input name="message" type="text" placeholder="Add comment...">
-            <input type="submit" value="Comment">
-        </form>
-    </div>
-    {% for comment in comments %}
-        <div>
-            <h5>
-                <strong>
-                    {{comment.commentator}}
-                    {% if is_owner %} (owner) {% endif %}
-                </strong>
-                ∙
-                {{ comment.time }}
-                {% if comment.is_modified %} (edited) {% endif %}
-            </h5>
-            {% if request.user.id == comment.commentator.id %}
-                <form action="{% url 'comment_edit' listing.id comment.id %}">
-                    <input type="submit" value="Edit">
-                </form>
-            {% endif %}
-            <p>{{ comment.message }}</p>
-        </div>
-    {% endfor %}
-</main>
 {% endblock body %}
