@@ -94,6 +94,39 @@ def listing_edit(request, listing_id):
         listing.save()
         return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
+
+@login_required
+def comment_edit(request, listing_id, comment_id):
+    
+    # Get listing
+    listing = Listing.objects.get(pk=listing_id)
+    # Get comment
+    comment = listing.comments.get(pk=comment_id)
+    
+    
+    # Check if the logged-in user is the owner of the comment
+    if comment.commentator != request.user:
+        # Redirect or display an error message indicating unauthorized access
+        return HttpResponse("You are not authorized to edit this comment.")
+    
+    if request.method == "GET":
+        return render(request, "auctions/comment_edit.html", {
+            "comment": comment,
+            "listing_id": listing.id,
+        })
+    elif request.method == "POST":
+        
+        # Change message
+        new_message = request.POST["new-message"]
+        comment.message = new_message
+        comment.save()
+        
+        # Set is_modified True
+        comment.is_modified = True
+        
+        return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
+
+
 # Change status of listing
 def status(request, listing_id):
     if request.method == "POST":

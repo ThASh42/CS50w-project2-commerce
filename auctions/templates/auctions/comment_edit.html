@@ -1,0 +1,15 @@
+{% extends 'auctions/layout.html' %}
+
+{% block body %}
+
+<main>
+    <p>Commentator: {{ comment.commentator }}</p>
+    <form action="{% url 'comment_edit' listing_id comment.id %}" method="POST">
+        {% csrf_token %}
+        <h5><label for="comment-edit-textarea">Comment:</label></h5>
+        <textarea name="new-message" id="comment-edit-textarea" cols="50" rows="5">{{ comment.message }}</textarea>
+        <input type="submit" value="Edit">
+    </form>
+</main>
+
+{% endblock body %}

@@ -131,6 +131,11 @@
                 {{ comment.time }}
                 {% if is_modified %} (edited) {% endif %}
             </h5>
+            {% if request.user.id == comment.commentator.id %}
+                <form action="{% url 'comment_edit' listing.id comment.id %}">
+                    <input type="submit" value="Edit">
+                </form>
+            {% endif %}
             <p>{{ comment.message }}</p>
         </div>
     {% endfor %}

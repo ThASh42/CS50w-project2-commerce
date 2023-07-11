@@ -19,6 +19,7 @@ urlpatterns = [
     
     # Edit paths
     path("<int:listing_id>/listing_edit", views.listing_edit, name="listing_edit"),
+    path("<int:listing_id>/comment_edit/<int:comment_id>", views.comment_edit, name="comment_edit"),
     
     # Other paths
     path("create-listing", views.listing_create, name="listing_create"),
