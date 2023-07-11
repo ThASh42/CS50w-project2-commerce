@@ -1,0 +1,6 @@
+$custom-colors: (
+	"purple": $purple,
+	"accent": $accent-color,
+);
+
+$theme-colors: map-merge($theme-colors, $custom-colors);

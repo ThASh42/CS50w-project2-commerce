@@ -1,0 +1,12 @@
+// import the necessary Bootstrap files
+@import "../../../../node_modules/bootstrap/scss/functions";
+@import "../../../../node_modules/bootstrap/scss/variables";
+// import Bootstrap custom maps and vars
+@import "./abstracts/variables";
+@import "./abstracts/map-amends";
+// import Bootstrap
+@import "../../../../node_modules/bootstrap/scss/bootstrap";
+
+body {
+	padding: 10px;
+}
