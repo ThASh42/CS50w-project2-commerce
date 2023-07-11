@@ -181,7 +181,7 @@ def bids(request, listing_id):
 def my_listings(request):
     if request.method == "GET":
         listings = Listing.objects.filter(owner = request.user)
-        return render(request, "auctions/my.html", {
+        return render(request, "auctions/my_listings.html", {
                 "listings": listings
             })
 

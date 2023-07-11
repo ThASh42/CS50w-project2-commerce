@@ -1,0 +1,13 @@
+{% extends 'auctions/layout.html' %}
+
+{% block body %}
+    
+    <h2>My listings</h2>
+    
+    {% if listings %}
+        {% include "auctions/listing_section.html" %}
+    {% else %}
+        <h4>You don't have any listings of your own</h4>
+    {% endif %}
+
+{% endblock body %}
