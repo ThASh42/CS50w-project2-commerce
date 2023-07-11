@@ -5,9 +5,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
+from .utilities import CONDITION_CHOICES, CATEGORY_CHOICES
+from .utilities import get_price, check_user, check_price
 from .models import *
-from .utilities import CONDITION_CHOICES, CATEGORY_CHOICES, get_price, check_user, check_price
-from decimal import Decimal, InvalidOperation
+from decimal import Decimal
 
 
 # Display active listings
@@ -62,10 +63,17 @@ def listing(request, listing_id):
 
 
 # Edit listing
+@login_required
 def listing_edit(request, listing_id):
+    
+    listing = Listing.objects.get(pk=listing_id)
+    
+    # Check if the logged-in user is the owner of the listing
+    if listing.owner != request.user:
+        # Display an error message indicating unauthorized access
+        return HttpResponse("You are not authorized to edit this listing.")
+    
     if request.method == "GET":
-        
-        listing = Listing.objects.get(pk=listing_id)
         
         return render(request, "auctions/listing_edit.html", {
             "conditions": CONDITION_CHOICES,
@@ -73,8 +81,6 @@ def listing_edit(request, listing_id):
             "listing": listing,
         })
     if request.method == "POST":
-        
-        listing = Listing.objects.get(pk=listing_id)
         
         # Update listing data
         title = request.POST["title"]
@@ -106,7 +112,7 @@ def comment_edit(request, listing_id, comment_id):
     
     # Check if the logged-in user is the owner of the comment
     if comment.commentator != request.user:
-        # Redirect or display an error message indicating unauthorized access
+        # Display an error message indicating unauthorized access
         return HttpResponse("You are not authorized to edit this comment.")
     
     if request.method == "GET":
@@ -128,6 +134,7 @@ def comment_edit(request, listing_id, comment_id):
 
 
 # Change status of listing
+@login_required
 def status(request, listing_id):
     if request.method == "POST":
         
@@ -142,6 +149,7 @@ def status(request, listing_id):
 
 
 # Close auction
+@login_required
 def close_auction(request, listing_id):
     if request.method == "POST":
         listing = Listing.objects.get(pk=listing_id)
@@ -186,7 +194,6 @@ def bid(request, listing_id):
         bid_price = Decimal(request.POST["bid"])
         
         listing = Listing.objects.get(pk=listing_id)
-        current_price = get_price(listing)
         
         user = request.user
         
