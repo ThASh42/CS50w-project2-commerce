@@ -121,6 +121,20 @@ def close_auction(request, listing_id):
         return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
 
+def bids(request, listing_id):
+    if request.method == "GET":
+        listing = Listing.objects.get(pk=listing_id)
+        
+        # Get all bids ordered by descending price
+        bids = listing.bids.all().order_by('-price')
+        
+        return render(request, "auctions/bids.html", {
+            "bids": bids,
+            "listing": listing,
+            "bidders": listing.bids.values('user').distinct().count(),
+        })
+
+
 # Display your own listings
 @login_required
 def my_listings(request):

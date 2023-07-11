@@ -58,12 +58,14 @@
 
             <!-- Display the ammout of bids -->
             <div> 
-                {{ listing.bids.count }}
-                {% if listing.bids.count == 1 %} 
-                    bid
-                {% else %}
-                    bids
-                {% endif %}
+                <a href="{% url 'bids' listing.id %}">
+                    {{ listing.bids.count }}
+                    {% if listing.bids.count == 1 %} 
+                        bid
+                    {% else %}
+                        bids
+                    {% endif %}
+                </a>
             </div>
 
         </div>
@@ -79,7 +81,7 @@
                     </form>
                 {% endif %}
 
-                <!-- Display watchlist -->
+                <!-- Add to the watchlist -->
                 {% if not is_watching %}
                     <form action="{% url 'watchlist' listing.id %}" method="POST">
                         {% csrf_token %}
