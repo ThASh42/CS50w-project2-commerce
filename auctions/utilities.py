@@ -57,7 +57,7 @@ def check_price(listing, bid_price):
 
 
 # Check if the user already has the highest bid
-def check_user(listing, user):
+def check_highest_bid(listing, user):
     if listing.bids.exists():
         highest_bid = listing.bids.order_by('-price').first()
         return True if highest_bid.user.id == user.id else False

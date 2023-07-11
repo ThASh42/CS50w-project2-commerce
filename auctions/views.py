@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .utilities import CONDITION_CHOICES, CATEGORY_CHOICES
-from .utilities import get_price, check_user, check_price
+from .utilities import get_price, check_highest_bid, check_price
 from .models import *
 from decimal import Decimal
 
@@ -197,7 +197,7 @@ def bid(request, listing_id):
         
         user = request.user
         
-        has_highest_bid = check_user(listing, user)
+        has_highest_bid = check_highest_bid(listing, user)
         
         is_price_bigger = check_price(listing, bid_price)
         
