@@ -121,7 +121,11 @@
     {% for comment in comments %}
         <div>
             <h5>
-                <strong>{{ comment.commentator }}</strong>
+                <strong>
+                    {{comment.commentator}}
+                    {% if is_owner %} (owner) {% endif %}
+                </strong>
+                ∙
                 {{ comment.time }}
                 {% if is_modified %} (edited) {% endif %}
             </h5>
