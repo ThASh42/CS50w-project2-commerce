@@ -10,36 +10,41 @@
             <img src="{{ listing.image }}" alt="Listing picture" style="width:300px">
         </div>
         <div>
-        {% if is_owner %}
-        <strong>Your listing</strong>
-        <form action="{% url 'listing_edit' listing.id %}" method="GET">
-            {% csrf_token %}
-            <input type="submit" value="Edit">
-        </form>
-        <br>
-        {% endif %}
+            {% if is_owner %}
 
-        {{ listing.title }}
-        <br>
-        {{ listing.description }}
-        {% if listing.active_status == "active" %}
-        <p>Status: Active</p>
-        {% elif listing.active_status == "inactive" %}
-        <p>Status: Inactive</p>
-        {% else %}
-        <p>Status: Closed</p>
-        <p>Winner: {{ listing.winner }}</p>
-        {% endif %}
+                <strong>Your listing</strong>
+                <form action="{% url 'listing_edit' listing.id %}" method="GET">
+                    {% csrf_token %}
+                    <input type="submit" value="Edit">
+                </form>
+                <br>
+                {% endif %}
+
+                {{ listing.title }}
+                <br>
+                {{ listing.description }}
+
+                {% if listing.active_status == "active" %}
+                <p>Status: Active</p>
+                {% elif listing.active_status == "inactive" %}
+                <p>Status: Inactive</p>
+                {% else %}
+                <p>Status: Closed</p>
+                <p>Winner: {{ listing.winner }}</p>
+
+            {% endif %}
         </div>
         <hr>
     </section>
     <section>
-        {% if not is_owner %} <!-- If user is not owner -->
         <div>
+
             {% if request.user.id == listing.winner.id %}
                 <strong>You have won the auction!</strong><br>
             {% endif %}
-            {% if not listing.bids.count == 0 %} <!-- Display price -->
+
+            <!-- Display price -->
+            {% if not listing.bids.count == 0 %} 
             <div>
                 <h6>Current price:</h6>
                 <h4><strong>US ${{ current_price }}</strong></h4>
@@ -50,7 +55,9 @@
                 <h4><strong>US ${{ current_price }} </strong></h4>
             </div>
             {% endif %}
-            <div> <!-- Display the ammout of bids -->
+
+            <!-- Display the ammout of bids -->
+            <div> 
                 {{ listing.bids.count }}
                 {% if listing.bids.count == 1 %} 
                     bid
@@ -58,40 +65,45 @@
                     bids
                 {% endif %}
             </div>
+
         </div>
-        <div>
-            <!-- Input bid -->
-            {% if not listing.active_status == "closed" %}
-            <form action="{% url 'bid' listing.id %}", method="POST">
-                {% csrf_token %}
-                <input name="bid" type="number" step= 0.01 placeholder="Bid">
-                <input type="submit" value="Place bid">
-            </form>
-            {% endif %}
-            <!-- Display watchlist -->
-            {% if not is_watching %}
-            <form action="{% url 'watchlist' listing.id %}" method="POST">
-                {% csrf_token %}
-                <input type="submit" value="Add to watchlist">
-            </form>
-            {% else %}
-            <form action="{% url 'delete_watchlist' listing.id %}" method="POST">
-                {% csrf_token %}
-                <input type="submit" value="Unwatch">
-            </form>
-            {% endif %}
-        </div>
+        {% if not is_owner %} <!-- If user is not owner -->
+            <div>
+
+                <!-- Input bid -->
+                {% if not listing.active_status == "closed" %}
+                    <form action="{% url 'bid' listing.id %}", method="POST">
+                        {% csrf_token %}
+                        <input name="bid" type="number" step= 0.01 placeholder="Bid">
+                        <input type="submit" value="Place bid">
+                    </form>
+                {% endif %}
+
+                <!-- Display watchlist -->
+                {% if not is_watching %}
+                    <form action="{% url 'watchlist' listing.id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" value="Add to watchlist">
+                    </form>
+                {% else %}
+                    <form action="{% url 'delete_watchlist' listing.id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" value="Unwatch">
+                    </form>
+                {% endif %}
+
+            </div>
         {% else %} <!-- If user is owner -->
-        {% if not listing.active_status == "closed" %}
-        <form action="{% url 'status' listing.id %}" method="POST">
-            {% csrf_token %}
-            <input type="submit" value="Change status">
-        </form>
-        <form action="{% url 'close_auction' listing.id %}" method="POST">
-            {% csrf_token %}
-            <input type="submit" value="Close auction">
-        </form>
-        {% endif %}
+            {% if not listing.active_status == "closed" %}
+                <form action="{% url 'status' listing.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="Change status">
+                </form>
+                <form action="{% url 'close_auction' listing.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="Close auction">
+                </form>
+            {% endif %}
         {% endif %}
     </section>
     <hr>
@@ -107,13 +119,14 @@
         </form>
     </div>
     {% for comment in comments %}
-    <div>
-        <h5><strong>{{ comment.commentator }}</strong>
-            {{ comment.time }}
-            {% if is_modified %} (edited) {% endif %}
-        </h5>
-        <p>{{ comment.message }}</p>
-    </div>
+        <div>
+            <h5>
+                <strong>{{ comment.commentator }}</strong>
+                {{ comment.time }}
+                {% if is_modified %} (edited) {% endif %}
+            </h5>
+            <p>{{ comment.message }}</p>
+        </div>
     {% endfor %}
 </main>
 {% endblock body %}
