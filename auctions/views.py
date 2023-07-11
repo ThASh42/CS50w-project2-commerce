@@ -19,8 +19,12 @@ def index(request):
             "categories": CATEGORY_CHOICES,
         })
     elif request.method == "POST": # Search result
+        
+        # Get searched category
         category = request.POST["category"]
-        search = request.POST["search"]
+        # Get search
+        search = request.POST["search"].strip(" ")
+        
         if not category == "all" or not search == "":
             
             if category == "all":
@@ -31,7 +35,8 @@ def index(request):
             return render(request, "auctions/index.html", {
                 "listings": listings,
                 "categories": CATEGORY_CHOICES,
-                "selected_category": category
+                "selected_category": category,
+                "search": search,
             })
         else:
             return HttpResponseRedirect(reverse("index"))

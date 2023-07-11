@@ -5,7 +5,7 @@
         <h2>Active Listings</h2>
         <form action="{% url 'index' %}" method="POST">
             {% csrf_token %}
-            <input name="search" type="text" placeholder="Search for anything">
+            <input name="search" type="search" placeholder="Search for anything" value="{{ search }}" autocomplete="off">
             <select name="category" id="search_categories">
                 <option value="all" selected>All Categories</option>
                 
