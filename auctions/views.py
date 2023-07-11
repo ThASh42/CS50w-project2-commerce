@@ -46,11 +46,20 @@ def listing(request, listing_id):
     owner_id = listing.owner.id
     is_owner = True if request.user.id == owner_id else False
     
+    # Get comments
     comments = listing.comments.all()
     
+    # Get current price
     current_price = get_price(listing)
     
+    # Get message if there is one
     message = request.GET.get('message')
+    
+    # Get name of category
+    for category_tuple in CATEGORY_CHOICES:
+        if category_tuple[0] == listing.category:
+            category = category_tuple[1]
+            break
     
     return render(request, "auctions/listing.html", {
         "listing": listing,
@@ -59,6 +68,7 @@ def listing(request, listing_id):
         "is_owner": is_owner,
         "current_price": current_price,
         "message": message,
+        "category": category,
     })
 
 
