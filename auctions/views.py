@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -57,9 +58,6 @@ def listing(request, listing_id):
     # Get current price
     current_price = get_price(listing)
     
-    # Get message if there is one
-    message = request.GET.get('message')
-    
     # Get name of category
     for category_tuple in CATEGORY_CHOICES:
         if category_tuple[0] == listing.category:
@@ -72,7 +70,6 @@ def listing(request, listing_id):
         "comments": comments,
         "is_owner": is_owner,
         "current_price": current_price,
-        "message": message,
         "category": category,
     })
 
@@ -232,11 +229,11 @@ def bid(request, listing_id):
             return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
         else:
             if has_highest_bid:
-                message = "Your bid is already the highest"
+                messages.success(request, "Your bid is already the highest")
             else:
-                message = "Your bid price is not suitable"
-            redirect_url = reverse("listing", args=(listing_id,)) + f'?message={message}'
-            return HttpResponseRedirect(redirect_url)
+                messages.success(request, "Your bid price is not suitable")
+            
+            return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
 
 # Create listing
