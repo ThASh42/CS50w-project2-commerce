@@ -1,8 +1,10 @@
 {% extends 'auctions/layout.html' %}
 
 {% block body %}
+
     <form action="{% url 'listing_create' %}" method='POST'>
         {% include "auctions/listing_input.html" %}
         <input type="submit" value="Create Listing">
     </form>
+
 {% endblock body %}

@@ -2,7 +2,6 @@
 
 {% block body %}
 
-<main>
     <section>
         <a href="{% url 'listing' listing.id %}">Back to listing</a>
         <div>
@@ -30,6 +29,7 @@
             <p>Bidders: {{ bidders }}</p>
         </div>
     </section>
+
     <section>
         <table>
             <tr>
@@ -51,6 +51,5 @@
             </tr>
         </table>
     </section>
-</main>
 
 {% endblock body %}
