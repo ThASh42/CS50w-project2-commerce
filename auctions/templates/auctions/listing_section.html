@@ -1,37 +1,60 @@
-{% for listing in listings %}
-<section>
-    {% if listing.image %}
-    <div>
-        <a href="{% url 'listing' listing.id %}">
-            <img src="{{ listing.image }}" alt="Picture of shovel" style="width:300px">
-        </a>
-    </div>
-    {% endif %}
-    <div>
-        <a href="{% url 'listing' listing.id %}">{{ listing.title }} </a><br>
-        <div>
-            <!-- Display price -->
-            {% if listing.bids.exists %} 
+<hr>
+<div class="row justify-content-around m-3">
+    {% for listing in listings %}
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2 justify-content-around p-3">
+            <section class="card m-auto">
                 <div>
-                    <h6>Current bid:</h6>
-                    <h4><strong>US ${{ listing.bids.first.price }}</strong></h4>
+                    <a href="{% url 'listing' listing.id %}">
+                        <div>
+                            <img {% if listing.image %} src="{{ listing.image }}" class="card-img-top" {% else %} 
+                            src="https://img.freepik.com/free-icon/no-camera_318-409247.jpg?size=626&ext=jpg&ga=GA1.2.1270369004.1689873559&semt=ais" 
+                            class="no-card-img-top card-img-top" {% endif %} alt="Picture of shovel">
+                        </div>
+                    </a>
                 </div>
-            {% else %}
-                <div>
-                    <h6>Starting bid:
-                    <h4><strong>US ${{ listing.start_bid }} </strong></h4>
+                <div class="card-body">
+                    <div class="card-title">
+                        <a href="{% url 'listing' listing.id %}">
+                            <strong>{{ listing.title }}</strong>
+                        </a>
+                    </div>
+                    <div>
+                        <span class="card-subtitle">
+                            {{ listing.condition }}
+                        </span>
+                    </div>
+                    <div class="listing-price-div">
+                        <strong>
+                            <!-- Display price -->
+                            {% if listing.bids.exists %} 
+                                    US ${{ listing.bids.first.price }}
+                            {% else %}
+                                    US ${{ listing.start_bid }}
+                            {% endif %}
+                        </strong>
+                    </div>
+                    <div>
+                        <span class="card-subtitle">
+                            {% if listing.owner.id == request.user.id %}
+                                Your listing
+                            {% else %}
+                                Buy it now
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="card-subtitle">
+                            {{ listing.bids.count }}
+                            {% if listing.bids.count == 1 %} 
+                                bid
+                            {% else %}
+                                bids
+                            {% endif %}
+                        </span>
+                    </div>
                 </div>
-            {% endif %}
+            </section>
         </div>
-        {{ listing.bids.count }}
-        {% if listing.bids.count == 1 %} 
-            bid
-        {% else %}
-            bids
-        {% endif %}
-        <br>
-        {{ listing.description }}
-    </div>
-</section>
-<br>
-{% endfor %}
+    {% endfor %}
+</div>
+<hr>

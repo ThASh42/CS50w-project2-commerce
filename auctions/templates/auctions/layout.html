@@ -3,11 +3,13 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}Auctions{% endblock %}</title>
         <link href="{% static 'auctions/scss/styles.css' %}" rel="stylesheet">
     </head>
     <body>
-        <nav class="top-header">
+        <nav class="top-header shadow-lg">
 
             <h1>Auctions</h1>
             <div>
@@ -54,7 +56,7 @@
             {% endfor %}
         {% endif %}
 
-        <main>
+        <main class="container-md">
             {% block body %}
             {% endblock %}
         </main>

@@ -1,23 +1,39 @@
 // * variables
-$body-color: #121212; // main color
-$accent-color: #191919; // minor color
+$body-color: #121212; // main colors
+$body-color-lighten: lighten($body-color, 10%); // lighten body color
+$accent-color: #000000; // accent color
 $color-hover: #960edb; // color when hovering over an HTML element
 
-$text-color: rgb(205, 205, 205); // text color
-$text-color_dark: grey; // dark color when hovering over text
+$text-color: rgb(220, 220, 220); // text color
+$text-color-dark: rgb(148, 148, 148); // dark color when hovering over text
 $text-color-bright: white; // bright color when hovering over text
-$text-color-active: #960edb; // text color when text is active
+//// $text-color-active: #960edb; // text color when text is active
 
 $input-color: #202020; // input field color
 $input-color-hover: #252525; // color of input field when hovering
 
+/*
 $button-color: #960edb; // button field color
 $button-color-hover: #8a12c6; // color of button when hovering
 $button-color-active: #8612c1; // button color when button is active
+*/
 
-$font-size: 16px;
-$font-size-bigger: 21px;
+$font-size-16: 16px;
+$font-size-18: 18px;
+
+$nav-height: 70px;
 
 // * bootstrap variables
 // colors
-$purple: #4b006e;
+//// $purple: #9c27b0;
+// nav
+$nav-link-color: $text-color;
+$nav-link-hover-color: lighten($nav-link-color, 20%);
+
+$nav-underline-link-active-color: white;
+// cards
+$card-bg: $body-color;
+$card-color: $text-color;
+$card-subtitle-color: $text-color-dark;
+$card-spacer-x: 0px;
+$card-border-width: none;

@@ -2,14 +2,14 @@
 
 {% block body %}
 
-    <div>
+    <div class="text-center">
         <h2>Active Listings</h2>
         <form action="{% url 'index' %}" method="POST">
             {% csrf_token %}
             <input name="search" type="search" placeholder="Search for anything" value="{{ search }}" autocomplete="off">
             <select name="category" id="search_categories">
                 <option value="all" selected>All Categories</option>
-                
+
                 {% for category_value, category_text in categories %}
                     {% if category_value == selected_category and selected_category %} <!-- Set the option to be selected if it is searched category -->
                         <option value="{{ category_value }}" selected>{{ category_text }}</option>

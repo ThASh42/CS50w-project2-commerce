@@ -8,5 +8,84 @@
 @import "../../../../node_modules/bootstrap/scss/bootstrap";
 
 body {
+	background-color: $body-color;
+	color: $text-color;
+}
+
+nav {
+	background-color: $accent-color;
+	margin: 0;
 	padding: 10px;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height: $nav-height;
+}
+
+main {
+	margin-top: $nav-height + 15;
+}
+
+a {
+	color: $text-color;
+	text-decoration: none;
+}
+
+img {
+	width: 50%;
+}
+
+span {
+	color: $text-color-dark;
+}
+
+input,
+select {
+	height: 35px;
+	color: $text-color;
+	background-color: $body-color-lighten;
+	border: none;
+	padding: 5px;
+	border-radius: 3px;
+}
+
+input[type="search"] {
+	padding-right: 50px;
+}
+
+*:focus {
+	outline: 1px solid white;
+}
+
+.top-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.listing-padding {
+	box-sizing: border-box;
+	padding: 20px 50px;
+}
+
+.card-img-top {
+	aspect-ratio: 1 / 1; /* defining the aspect ratio of the image */
+	object-fit: cover; /* making sure the image isn't distorted */
+}
+
+.card-title {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+@media (min-width: 992px) {
+	body {
+		font-size: $font-size-18;
+	}
+}
+@media (max-width: 992px) {
+	body {
+		font-size: $font-size-16;
+	}
 }
