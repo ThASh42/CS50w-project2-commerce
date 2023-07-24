@@ -27,6 +27,7 @@ $nav-link-hover-color: lighten($nav-link-color, 20%);
 $nav-underline-link-active-color: white;
 // navbar
 $navbar-brand-font-size: 1.5rem;
+$navbar-brand-padding-y: 0;
 // cards
 $card-bg: $body-color;
 $card-color: $text-color;
