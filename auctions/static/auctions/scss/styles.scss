@@ -26,14 +26,14 @@ img {
 }
 
 span {
-	color: $text-color-dark;
+	color: $text-color-darken;
 }
-
+/*
 input,
 select {
 	height: 35px;
 	color: $text-color;
-	background-color: $body-color-lighten;
+	background-color: $body-color-lighten-5;
 	border: none;
 	padding: 5px;
 	border-radius: 3px;
@@ -43,9 +43,9 @@ input[type="search"] {
 	padding-right: 50px;
 }
 
-*:focus {
+input:focus {
 	outline: 1px solid white;
-}
+}*/
 
 .top-header {
 	display: flex;

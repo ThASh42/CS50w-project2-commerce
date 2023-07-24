@@ -1,6 +1,7 @@
 $custom-colors: (
 	"purple": $purple,
 	"accent": $accent-color,
+	"bodyButton": $body-color-lighten-20,
 );
 
 $theme-colors: map-merge($theme-colors, $custom-colors);

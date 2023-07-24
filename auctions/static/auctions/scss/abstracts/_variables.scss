@@ -1,22 +1,17 @@
 // * variables
-$body-color: #121212; // main colors
-$body-color-lighten: lighten($body-color, 10%); // lighten body color
-$accent-color: #000000; // accent color
-$color-hover: #960edb; // color when hovering over an HTML element
+$body-color: #121212; // main color
+$body-color-lighten-5: lighten($body-color, 5%);
+$body-color-lighten-10: lighten($body-color, 10%);
+$body-color-lighten-20: lighten($body-color, 20%); // lighten body colors
+$body-color-lighten-30: lighten($body-color, 30%);
+$body-color-lighten-50: lighten($body-color, 50%);
+$accent-color: darken($body-color, 10%); // accent color
 
 $text-color: rgb(220, 220, 220); // text color
-$text-color-dark: rgb(148, 148, 148); // dark color when hovering over text
-$text-color-bright: white; // bright color when hovering over text
-//// $text-color-active: #960edb; // text color when text is active
+$text-color-darken: darken($text-color, 20%); // darken text color
+$text-color-lighten: lighten($text-color, 20%); // lighten text color
 
-$input-color: #202020; // input field color
-$input-color-hover: #252525; // color of input field when hovering
-
-/*
-$button-color: #960edb; // button field color
-$button-color-hover: #8a12c6; // color of button when hovering
-$button-color-active: #8612c1; // button color when button is active
-*/
+$purple: #9c27b0;
 
 $font-size-16: 16px;
 $font-size-18: 18px;
@@ -24,8 +19,8 @@ $font-size-18: 18px;
 $nav-height: 70px;
 
 // * bootstrap variables
-// colors
-//// $purple: #9c27b0;
+// focus ring
+$focus-ring-color: $purple;
 // nav
 $nav-link-color: $text-color;
 $nav-link-hover-color: lighten($nav-link-color, 20%);
@@ -35,6 +30,25 @@ $navbar-brand-font-size: 1.5rem;
 // cards
 $card-bg: $body-color;
 $card-color: $text-color;
-$card-subtitle-color: $text-color-dark;
+$card-subtitle-color: $text-color-darken;
 $card-spacer-x: 0px;
 $card-border-width: none;
+// form controls
+$input-bg: $body-color-lighten-5;
+$input-focus-bg: $body-color-lighten-5;
+
+$input-color: $text-color;
+$input-focus-color: $text-color-lighten;
+
+$input-placeholder-color: $text-color-darken;
+$input-border-color: $body-color-lighten-20;
+$input-focus-border-color: $body-color-lighten-50;
+$input-focus-box-shadow: 0 0 7px $purple;
+// select
+$form-select-bg: $body-color-lighten-5;
+$form-select-color: $text-color;
+
+$form-select-border-color: $body-color-lighten-20;
+$form-select-focus-box-shadow: 0 0 7px $purple;
+
+$form-select-focus-border-color: $body-color-lighten-50;
