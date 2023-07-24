@@ -39,7 +39,7 @@
 <section>
     <div>
 
-        {% if request.user.id == listing.winner.id %}
+        {% if request.user.id == listing.winner.id and user.is_authenticated %}
             <strong>You have won the auction!</strong><br>
         {% endif %}
 
