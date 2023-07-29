@@ -1,5 +1,5 @@
 // * variables
-$body-color: #121212; // main color
+$body-color: #141414; // main color
 $body-color-lighten-5: lighten($body-color, 5%);
 $body-color-lighten-10: lighten($body-color, 10%);
 $body-color-lighten-20: lighten($body-color, 20%); // lighten body colors
@@ -11,7 +11,9 @@ $text-color: rgb(220, 220, 220); // text color
 $text-color-darken: darken($text-color, 20%); // darken text color
 $text-color-lighten: lighten($text-color, 20%); // lighten text color
 
-$purple: #9c27b0;
+$purple: #9f0be9;
+$purple-darken: darken($purple, 5%);
+$purple-lighten: lighten($purple, 7%);
 
 $font-size-16: 16px;
 $font-size-18: 18px;
@@ -41,7 +43,7 @@ $input-focus-bg: $body-color-lighten-5;
 $input-color: $text-color;
 $input-focus-color: $text-color-lighten;
 
-$input-placeholder-color: $text-color-darken;
+$input-placeholder-color: $text-color;
 $input-border-color: $body-color-lighten-20;
 $input-focus-border-color: $body-color-lighten-50;
 $input-focus-box-shadow: 0 0 7px $purple;
