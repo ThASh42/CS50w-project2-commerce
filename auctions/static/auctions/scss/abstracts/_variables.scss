@@ -4,7 +4,7 @@ $body-color-lighten-5: lighten($body-color, 5%);
 $body-color-lighten-10: lighten($body-color, 10%);
 $body-color-lighten-20: lighten($body-color, 20%); // lighten body colors
 $body-color-lighten-30: lighten($body-color, 30%);
-$body-color-lighten-50: lighten($body-color, 50%);
+$body-color-lighten-40: lighten($body-color, 40%);
 $accent-color: darken($body-color, 10%); // accent color
 
 $text-color: rgb(220, 220, 220); // text color
@@ -43,15 +43,15 @@ $input-focus-bg: $body-color-lighten-5;
 $input-color: $text-color;
 $input-focus-color: $text-color-lighten;
 
-$input-placeholder-color: $text-color;
+$input-placeholder-color: $text-color-lighten;
 $input-border-color: $body-color-lighten-20;
-$input-focus-border-color: $body-color-lighten-50;
-$input-focus-box-shadow: 0 0 7px $purple;
+$input-focus-border-color: $body-color-lighten-40;
+$input-focus-box-shadow: none;
 // select
 $form-select-bg: $body-color-lighten-5;
 $form-select-color: $text-color;
 
 $form-select-border-color: $body-color-lighten-20;
-$form-select-focus-box-shadow: 0 0 7px $purple;
+$form-select-focus-box-shadow: none;
 
-$form-select-focus-border-color: $body-color-lighten-50;
+$form-select-focus-border-color: $body-color-lighten-40;

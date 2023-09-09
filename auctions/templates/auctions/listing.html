@@ -67,7 +67,7 @@
                                     <div class="m-1">
                                         <form action="{% url 'bid' listing.id %}", method="POST">
                                             {% csrf_token %}
-                                            <input class="form-control mb-1 bg-primary text-white" name="bid" type="number" step= 0.01 placeholder="Price">
+                                            <input class="form-control mb-1 bg-primary border-primary text-white" name="bid" type="number" step= 0.01 placeholder="Price">
                                             <input class="btn btn-purple w-100" type="submit" value="Place bid">
                                         </form>
                                     </div>

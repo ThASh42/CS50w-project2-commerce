@@ -2144,9 +2144,9 @@ progress {
 .form-control:focus {
   color: white;
   background-color: #212121;
-  border-color: #949494;
+  border-color: #7a7a7a;
   outline: 0;
-  box-shadow: 0 0 7px #9f0be9;
+  box-shadow: none;
 }
 .form-control::-webkit-date-and-time-value {
   min-width: 85px;
@@ -2158,11 +2158,11 @@ progress {
   padding: 0;
 }
 .form-control::-moz-placeholder {
-  color: rgb(220, 220, 220);
+  color: white;
   opacity: 1;
 }
 .form-control::placeholder {
-  color: rgb(220, 220, 220);
+  color: white;
   opacity: 1;
 }
 .form-control:disabled {
@@ -2295,9 +2295,9 @@ textarea.form-control-lg {
   }
 }
 .form-select:focus {
-  border-color: #949494;
+  border-color: #7a7a7a;
   outline: 0;
-  box-shadow: 0 0 7px #9f0be9;
+  box-shadow: none;
 }
 .form-select[multiple], .form-select[size]:not([size="1"]) {
   padding-right: 0.75rem;
