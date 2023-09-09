@@ -2,9 +2,15 @@
 
 {% block body %}
 
-    <form action="{% url 'listing_create' %}" method='POST'>
-        {% include "auctions/listing_input.html" %}
-        <input type="submit" value="Create Listing">
-    </form>
+<div class="mx-lg-5 mt-md-5">
+    <div class="mx-xl-3">
+        <form action="{% url 'listing_create' %}" method='POST'>
+            {% include "auctions/listing_input.html" %}
+            <div class="d-flex justify-content-center">
+                <input class="mt-5 btn btn-lg btn-purple" type="submit" value="Create Listing">
+            </div>
+        </form>
+    </div>
+</div>
 
 {% endblock body %}

@@ -43,6 +43,10 @@ span {
 	text-overflow: ellipsis;
 }
 
+.nowrap {
+	white-space: nowrap;
+}
+
 .no-resize {
 	resize: none;
 }
