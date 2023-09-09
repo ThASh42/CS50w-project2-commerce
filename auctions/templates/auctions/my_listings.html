@@ -2,12 +2,12 @@
 
 {% block body %}
     
-    <h2>My listings</h2>
+    <h2 class="text-center">My listings</h2>
     
     {% if listings %}
         {% include "auctions/listing_section.html" %}
     {% else %}
-        <h4>You don't have any listings of your own</h4>
+        <h4 class="text-center">You don't have any listings of your own</h4>
     {% endif %}
 
 {% endblock body %}

@@ -2,12 +2,12 @@
 
 {% block body %}
 
-    <h2>Watchlist</h2>
+    <h2 class="text-center">Watchlist</h2>
     
     {% if listings %}
         {% include "auctions/listing_section.html" %}
     {% else %}
-        <h4>There are no listings in your watchlist</h4>
+        <h4 class="text-center">There are no listings in your watchlist</h4>
     {% endif %}
 
 {% endblock body %}
