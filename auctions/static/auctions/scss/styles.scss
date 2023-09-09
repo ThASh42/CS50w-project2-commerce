@@ -71,7 +71,7 @@ span {
 	}
 }
 
-// width smaller than 992px
+// width is smaller than 992px
 @include media-breakpoint-down(lg) {
 	body {
 		font-size: $font-size-16;
@@ -83,11 +83,5 @@ span {
 
 	#mobile-authenticated {
 		display: block;
-	}
-}
-
-// width smaller than 768px
-@include media-breakpoint-down(md) {
-	#image-listing {
 	}
 }
