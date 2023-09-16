@@ -194,8 +194,29 @@ def my_listings(request):
     if request.method == "GET":
         listings = Listing.objects.filter(owner = request.user)
         return render(request, "auctions/my_listings.html", {
-                "listings": listings
+                "listings": listings,
+                "categories": CATEGORY_CHOICES,
             })
+    elif request.method == "POST":
+        # Get searched category
+        category = request.POST["category"]
+        # Get search
+        search = request.POST["search"].strip(" ")
+        
+        if not category == "all" or not search == "":
+            
+            if category == "all":
+                listings = Listing.objects.filter(active_status="active", title__icontains=search, owner = request.user)
+            else:
+                listings = Listing.objects.filter(active_status="active", category=category, title__icontains=search, owner = request.user)
+            return render(request, "auctions/my_listings.html", {
+                    "listings": listings,
+                    "categories": CATEGORY_CHOICES,
+                    "selected_category": category,
+                    "search": search,
+                })
+        else:
+            return HttpResponseRedirect(reverse("my_listings"))
 
 
 # Place bid

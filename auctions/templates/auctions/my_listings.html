@@ -1,13 +1,18 @@
 {% extends 'auctions/layout.html' %}
 
 {% block body %}
-    
-    <h2 class="text-center">My listings</h2>
-    
+    <div class="text-center col-lg-8 m-auto">
+        <h2 class="text-center">My listings</h2>
+        
+        <form action="{% url 'my_listings' %}" method="POST" class="mb-3">
+            {% include "auctions/helpers/search.html" %}
+        </form>
+    </div>
+
     {% if listings %}
         {% include "auctions/helpers/listing_section.html" %}
     {% else %}
-        <h4 class="text-center">You don't have any listings of your own</h4>
+        <h4 class="text-center">Listings not found</h4>
     {% endif %}
 
 {% endblock body %}
