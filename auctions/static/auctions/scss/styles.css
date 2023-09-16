@@ -2158,11 +2158,11 @@ progress {
   padding: 0;
 }
 .form-control::-moz-placeholder {
-  color: white;
+  color: rgb(220, 220, 220);
   opacity: 1;
 }
 .form-control::placeholder {
-  color: white;
+  color: rgb(220, 220, 220);
   opacity: 1;
 }
 .form-control:disabled {
