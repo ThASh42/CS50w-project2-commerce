@@ -3,19 +3,16 @@
 {% block body %}
 
 <div class="mx-lg-5">
-    <div class="text-center underlined p-1">
-        <h4><a href="{% url 'listing' listing.id %}">Back to listing</a></h4>
-    </div>
-    <section class="row g-3">
+    <section class="row g-3 mt-3">
         {% if listing.image %}
-            <div class="col-sm-2">
+            <div class="col-sm-3 col-md-2">
                 {% include "auctions/helpers/image_listing.html" %}
             </div>
         {% endif %}
         <div class="px-3 col d-flex align-items-center m-0">
             <div>
                 <div>
-                    {{ listing.title}}
+                    {{ listing.title }}
                 </div>
                 <div>
                     Current price: 
@@ -33,7 +30,7 @@
         </div>
     </section>
     
-    <section>
+    <section class="mt-3">
         <table class="table table-borderless table-dark">
             <thead>
                 <tr>
@@ -56,6 +53,10 @@
             </tr>
         </table>
     </section>
+
+    <div class="d-flex justify-content-center">
+        <a href="{% url 'listing' listing.id %}" class="btn btn-lg btn-purple">Back to listing</a>
+    </div>
 </div>
 
 {% endblock body %}
