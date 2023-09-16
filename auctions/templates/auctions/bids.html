@@ -2,54 +2,61 @@
 
 {% block body %}
 
-    <section>
-        <a href="{% url 'listing' listing.id %}">Back to listing</a>
-        <div>
-            {% if listing.image %}
-                <div>
-                    <img style="width:200px" src="{{ listing.image }}" alt="Image of listing">
-                </div>
-            {% endif %}
+<div class="mx-lg-5">
+    <section class="row g-3 mt-3">
+        {% if listing.image %}
+            <div class="col-sm-3 col-md-2">
+                {% include "auctions/helpers/image_listing.html" %}
+            </div>
+        {% endif %}
+        <div class="px-3 col d-flex align-items-center m-0">
             <div>
-                {{ listing.title}}
+                <div>
+                    {{ listing.title }}
+                </div>
+                <div>
+                    Current price: 
+                    <strong>
+                        {% if bids.exists %}
+                        ${{ bids.first.price }}
+                        {% else %}
+                        ${{ listing.start_bid }}
+                        {% endif %}
+                    </strong>
+                </div>
+                <div>Bids: {{ bids.count }}</div>
+                <div>Bidders: {{ bidders }}</div>
             </div>
         </div>
-        <div>
-            <p>
-                Current price: 
-                <strong>
-                    {% if bids.exists %}
-                        ${{ bids.first.price }}
-                    {% else %}
-                        ${{ listing.start_bid }}
-                    {% endif %}
-                </strong>
-            </p>
-            <p>Bids: {{ bids.count }}</p>
-            <p>Bidders: {{ bidders }}</p>
-        </div>
     </section>
-
-    <section>
-        <table>
-            <tr>
-                <th>User</th>
-                <th>Price</th>
-                <th>Time</th>
-            </tr>
+    
+    <section class="mt-3">
+        <table class="table table-borderless table-dark">
+            <thead>
+                <tr>
+                    <th class="bg-accent">User</th>
+                    <th class="bg-accent">Price</th>
+                    <th class="bg-accent">Time</th>
+                </tr>
+            </thead>
             {% for bid in bids %}
                 <tr>
-                    <td>{{ bid.user.username }}</td>
-                    <td>{{ bid.price }}</td>
-                    <td>{{ bid.time }}</td>
+                    <td class="bg-secondary">{{ bid.user.username }}</td>
+                    <td class="bg-secondary">{{ bid.price }}$</td>
+                    <td class="bg-secondary">{{ bid.time }}</td>
                 </tr>
             {% endfor %}
             <tr>
-                <td>Starting price</td>
-                <td>{{ listing.start_bid }}</td>
-                <td>{{ listing.time.creation_time }}</td>
+                <td class="bg-secondary">Starting price</td>
+                <td class="bg-secondary">{{ listing.start_bid }}$</td>
+                <td class="bg-secondary">{{ listing.time.creation_time }}</td>
             </tr>
         </table>
     </section>
+
+    <div class="d-flex justify-content-center">
+        <a href="{% url 'listing' listing.id %}" class="btn btn-lg btn-purple">Back to listing</a>
+    </div>
+</div>
 
 {% endblock body %}

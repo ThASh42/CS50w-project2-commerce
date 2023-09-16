@@ -91,7 +91,7 @@
                                     <div>
                                         <form action="{% url 'listing_edit' listing.id %}" method="GET">
                                             {% csrf_token %}
-                                            <input class="btn btn-darkenPurple my-1 w-100" type="submit" value="Edit">
+                                            <input class="btn btn-primary my-1 w-100" type="submit" value="Edit">
                                         </form>
                                         <form action="{% url 'status' listing.id %}" method="POST">
                                             {% csrf_token %}
