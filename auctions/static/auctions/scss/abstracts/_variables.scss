@@ -1,11 +1,13 @@
 // * variables
-$body-color: #141414; // main color
+$body-color: #070707; // main color
+$secondary-body-color: #121212; // secondary main color
+
 $body-color-lighten-5: lighten($body-color, 5%);
 $body-color-lighten-10: lighten($body-color, 10%);
 $body-color-lighten-20: lighten($body-color, 20%); // lighten body colors
 $body-color-lighten-30: lighten($body-color, 30%);
 $body-color-lighten-40: lighten($body-color, 40%);
-$accent-color: darken($body-color, 10%); // accent color
+$accent-color: #17171b; // accent color
 
 $text-color: rgb(220, 220, 220); // text color
 $text-color-darken: darken($text-color, 20%); // darken text color
