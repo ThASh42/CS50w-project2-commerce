@@ -1,0 +1,17 @@
+{% csrf_token %}
+<div class="input-group m-auto">
+    <input name="search" class="form-control w-50" type="search" placeholder="Search for anything" value="{{ search }}" autocomplete="off">
+    <select name="category" class="form-select w-25" id="search_categories">
+        <option value="all" selected>All Categories</option>
+
+        {% for category_value, category_text in categories %}
+            {% if category_value == selected_category and selected_category %} <!-- Set the option to be selected if it is searched category -->
+                <option value="{{ category_value }}" selected>{{ category_text }}</option>
+            {% else %}
+                <option value="{{ category_value }}">{{ category_text }}</option>
+            {% endif %}
+        {% endfor %}
+
+    </select>
+    <input class="btn btn-bodyButton" type="submit" value="Search">
+</div>
