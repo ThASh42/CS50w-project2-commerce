@@ -165,10 +165,12 @@ def status(request, listing_id):
 def close_auction(request, listing_id):
     if request.method == "POST":
         listing = Listing.objects.get(pk=listing_id)
-        
-        highest_bid = listing.bids.order_by('-price').first()
-        listing.winner = highest_bid.user
-        listing.active_status = "closed"
+        if listing.bids.exists():
+            highest_bid = listing.bids.order_by('-price').first()
+            listing.winner = highest_bid.user
+            listing.active_status = "closed"
+        else:
+            messages.error(request, "There are no bidders for this listing")
         
         listing.save()
         return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
