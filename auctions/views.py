@@ -11,36 +11,44 @@ from .utilities import get_price, check_highest_bid, check_price
 from .models import *
 from decimal import Decimal
 
-
 # Display active listings
 def index(request):
     if request.method == "GET":
+        # Get search
+        search = request.GET.get('q', "")
+        # Get selected category
+        selected_category = request.GET.get('category', "all")
+
+        listings = Listing.objects.filter(active_status="active")
+        # Apply search
+        if search:
+            listings = Listing.objects.filter(title__icontains = search)
+        if selected_category != "all":
+            listings = Listing.objects.filter(category = selected_category)
+
         return render(request, "auctions/index.html", {
-            "listings": Listing.objects.filter(active_status="active"),
+            "listings": listings,
             "categories": CATEGORY_CHOICES,
+            "selected_category": selected_category,
+            "search": search,
         })
     elif request.method == "POST": # Search result
-        
         # Get searched category
         category = request.POST["category"]
         # Get search
         search = request.POST["search"].strip(" ")
-        
-        if not category == "all" or not search == "":
-            
-            if category == "all":
-                listings = Listing.objects.filter(active_status="active", title__icontains=search)
+
+        url = reverse("index")
+
+        if search:
+            url += f"?q={search}"
+        if category:
+            if "?" in url:
+                url += f"&category={category}"
             else:
-                listings = Listing.objects.filter(active_status="active", category=category, title__icontains=search)
-            
-            return render(request, "auctions/index.html", {
-                "listings": listings,
-                "categories": CATEGORY_CHOICES,
-                "selected_category": category,
-                "search": search,
-            })
-        else:
-            return HttpResponseRedirect(reverse("index"))
+                url += f"?category={category}"
+        
+        return HttpResponseRedirect(url)
 
 
 # Display listing page
