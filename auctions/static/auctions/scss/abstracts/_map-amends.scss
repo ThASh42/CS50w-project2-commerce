@@ -5,7 +5,8 @@ $custom-colors: (
 	"accent": $accent-color,
 	"bodyButton": $body-color-lighten-20,
 	"secondary": $secondary-body-color,
-	"purpleblue": mix($purple, CornflowerBlue, 40%)
+	"purpleblue": mix($purple, CornflowerBlue, 40%),
+	"lightblue": rgb(92, 133, 229),
 );
 
 $theme-colors: map-merge($theme-colors, $custom-colors);

@@ -64,25 +64,25 @@
                             {% if not is_owner %} <!-- If user is not owner -->
                                 <!-- Input bid -->
                                 {% if not listing.active_status == "closed" %}
-                                    <div class="m-1">
+                                    <div>
                                         <form action="{% url 'bid' listing.id %}", method="POST">
                                             {% csrf_token %}
-                                            <input class="form-control mb-1 bg-primary border-primary text-white" name="bid" type="number" step= 0.01 placeholder="Price">
-                                            <input class="btn btn-purpleblue w-100" type="submit" value="Place bid">
+                                            <input class="form-control mb-1 bg-lightblue border-0 my-1 w-100" name="bid" type="number" step= 0.01 placeholder="Price">
+                                            <input class="btn btn-purpleblue border-0 my-1 w-100" type="submit" value="Place bid">
                                         </form>
                                     </div>
                                 {% endif %}
                                 <!-- Add to the watchlist -->
-                                <div class="m-1">
+                                <div>
                                     {% if not is_watching %}
                                         <form action="{% url 'watchlist' listing.id %}" method="POST">
                                             {% csrf_token %}
-                                            <input class="btn btn-outline-lightenPurple w-100" type="submit" value="Add to watchlist ♥">
+                                            <input class="btn btn-outline-lightenPurple border-0 my-1 w-100" type="submit" value="Add to watchlist ♥">
                                         </form>
                                     {% else %}
                                         <form action="{% url 'delete_watchlist' listing.id %}" method="POST">
                                             {% csrf_token %}
-                                            <input class="btn btn-lightenPurple w-100" type="submit" value="Unwatch">
+                                            <input class="btn btn-lightenPurple border-0 my-1 w-100" type="submit" value="Unwatch">
                                         </form>
                                     {% endif %}
                                 </div>
@@ -91,15 +91,15 @@
                                     <div>
                                         <form action="{% url 'listing_edit' listing.id %}" method="GET">
                                             {% csrf_token %}
-                                            <input class="btn btn-primary my-1 w-100" type="submit" value="Edit">
+                                            <input class="btn btn-primary border-0 my-1 w-100" type="submit" value="Edit">
                                         </form>
                                         <form action="{% url 'status' listing.id %}" method="POST">
                                             {% csrf_token %}
-                                            <input class="btn btn-purpleblue my-1 w-100" type="submit" value="Change status">
+                                            <input class="btn btn-purpleblue border-0 my-1 w-100" type="submit" value="Change status">
                                         </form>
                                         <form action="{% url 'close_auction' listing.id %}" method="POST">
                                             {% csrf_token %}
-                                            <input class="btn btn-lightenPurple my-1 w-100" type="submit" value="Close auction">
+                                            <input class="btn btn-lightenPurple border-0 my-1 w-100" type="submit" value="Close auction">
                                         </form>
                                     </div>
                                 {% endif %}
