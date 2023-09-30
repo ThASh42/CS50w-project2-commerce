@@ -11,7 +11,9 @@
     {% if listings.exists %}
         {% include "auctions/helpers/listing_section.html" %}
     {% else %}
-        <h4>There are no listings</h4>
+    <div class="text-center mt-3">
+        <h1>Listings not found</h1>
+    </div>
     {% endif %}
 
 {% endblock %}
