@@ -22,9 +22,9 @@ def index(request):
         listings = Listing.objects.filter(active_status="active")
         # Apply search
         if search:
-            listings = Listing.objects.filter(title__icontains = search)
+            listings = listings.filter(title__icontains = search)
         if selected_category != "all":
-            listings = Listing.objects.filter(category = selected_category)
+            listings = listings.filter(category = selected_category)
 
         return render(request, "auctions/index.html", {
             "listings": listings,
@@ -42,7 +42,7 @@ def index(request):
 
         if search:
             url += f"?q={search}"
-        if category:
+        if category != "all":
             if "?" in url:
                 url += f"&category={category}"
             else:
