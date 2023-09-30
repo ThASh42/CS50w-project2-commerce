@@ -49,6 +49,10 @@ $input-placeholder-color: $text-color;
 $input-border-color: $body-color-lighten-20;
 $input-focus-border-color: $body-color-lighten-40;
 $input-focus-box-shadow: none;
+
+$input-disabled-color: darken($input-color, 10%);
+$input-disabled-bg: darken($input-bg, 5%);
+$input-disabled-border-color: darken($input-border-color, 5%);
 // select
 $form-select-bg: $body-color-lighten-5;
 $form-select-color: $text-color;
