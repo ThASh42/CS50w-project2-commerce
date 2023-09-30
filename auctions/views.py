@@ -320,9 +320,29 @@ def watchlist(request):
     if request.method == "GET":
         user_id = request.user.id
         listings = Listing.objects.filter(watchlist__id=user_id)
+
+        # Get search
+        search = request.GET.get('q', "")
+        # Get selected category
+        selected_category = request.GET.get("category", "all")
+
+        listings = search_apply(listings, search, selected_category)
         return render(request, "auctions/watchlist.html", {
-            "listings": listings
+            "listings": listings,
+            "categories": CATEGORY_CHOICES,
+            "selected_category": selected_category,
+            "search": search,
         })
+    if request.method == "POST":
+        # Get search result
+        search = request.POST["search"].strip(" ")
+        # Get selected category
+        selected_category = request.POST["category"]
+
+        url = create_search_url("watchlist", search, selected_category)
+
+        return HttpResponseRedirect(url)
+
 
 
 # Add comment to the listing
