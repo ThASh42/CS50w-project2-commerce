@@ -1,3 +1,4 @@
+from django.urls import reverse
 # Choices for the condition field in the Listing model
 CONDITION_CHOICES = [
     ('new', 'Brand New'),
@@ -63,3 +64,25 @@ def check_highest_bid(listing, user):
         return True if highest_bid.user.id == user.id else False
     else:
         return False
+
+
+# Apply search
+def search_apply(listings, search, selected_category):
+    if search:
+        listings = listings.filter(title__icontains = search)
+    if selected_category != "all":
+        listings = listings.filter(category = selected_category)
+    return listings
+
+
+# Create redirect url with search
+def create_search_url(reverse_argument, search, selected_category):
+    url = reverse(reverse_argument)
+    if search:
+        url += f"?q={search}"
+    if selected_category != "all":
+        if "?" in url:
+            url += f"&category={selected_category}"
+        else:
+            url += f"?category={selected_category}"
+    return url

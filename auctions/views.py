@@ -7,40 +7,38 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .utilities import CONDITION_CHOICES, CATEGORY_CHOICES
-from .utilities import get_price, check_highest_bid, check_price
+from .utilities import get_price, check_highest_bid, check_price, search_apply, create_search_url
 from .models import *
 from decimal import Decimal
-
 
 # Display active listings
 def index(request):
     if request.method == "GET":
+        # Get search
+        search = request.GET.get('q', "")
+        # Get selected category
+        selected_category = request.GET.get('category', "all")
+        # Get active listings
+        listings = Listing.objects.filter(active_status="active")
+
+        # Apply search
+        listings = search_apply(listings, search, selected_category)
+
         return render(request, "auctions/index.html", {
-            "listings": Listing.objects.filter(active_status="active"),
+            "listings": listings,
             "categories": CATEGORY_CHOICES,
+            "selected_category": selected_category,
+            "search": search,
         })
     elif request.method == "POST": # Search result
-        
         # Get searched category
-        category = request.POST["category"]
+        selected_category = request.POST["category"]
         # Get search
         search = request.POST["search"].strip(" ")
+
+        url = create_search_url("index", search, selected_category)
         
-        if not category == "all" or not search == "":
-            
-            if category == "all":
-                listings = Listing.objects.filter(active_status="active", title__icontains=search)
-            else:
-                listings = Listing.objects.filter(active_status="active", category=category, title__icontains=search)
-            
-            return render(request, "auctions/index.html", {
-                "listings": listings,
-                "categories": CATEGORY_CHOICES,
-                "selected_category": category,
-                "search": search,
-            })
-        else:
-            return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(url)
 
 
 # Display listing page
@@ -165,10 +163,12 @@ def status(request, listing_id):
 def close_auction(request, listing_id):
     if request.method == "POST":
         listing = Listing.objects.get(pk=listing_id)
-        
-        highest_bid = listing.bids.order_by('-price').first()
-        listing.winner = highest_bid.user
-        listing.active_status = "closed"
+        if listing.bids.exists():
+            highest_bid = listing.bids.order_by('-price').first()
+            listing.winner = highest_bid.user
+            listing.active_status = "closed"
+        else:
+            messages.error(request, "There are no bidders for this listing")
         
         listing.save()
         return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
@@ -192,32 +192,30 @@ def bids(request, listing_id):
 @login_required
 def my_listings(request):
     if request.method == "GET":
+        # Get search
+        search = request.GET.get('q', "")
+        # Get selected category
+        selected_category = request.GET.get('category', "all")
+        # Get active listings
         listings = Listing.objects.filter(owner = request.user)
+
+        # Apply search
+        listings = search_apply(listings, search, selected_category)
+
         return render(request, "auctions/my_listings.html", {
                 "listings": listings,
                 "categories": CATEGORY_CHOICES,
             })
     elif request.method == "POST":
         # Get searched category
-        category = request.POST["category"]
+        selected_category = request.POST["category"]
         # Get search
         search = request.POST["search"].strip(" ")
         
-        if not category == "all" or not search == "":
-            
-            if category == "all":
-                listings = Listing.objects.filter(active_status="active", title__icontains=search, owner = request.user)
-            else:
-                listings = Listing.objects.filter(active_status="active", category=category, title__icontains=search, owner = request.user)
-            return render(request, "auctions/my_listings.html", {
-                    "listings": listings,
-                    "categories": CATEGORY_CHOICES,
-                    "selected_category": category,
-                    "search": search,
-                })
-        else:
-            return HttpResponseRedirect(reverse("my_listings"))
+        # Create url
+        url = create_search_url("my_listings", search, selected_category)
 
+        return HttpResponseRedirect(url)
 
 # Place bid
 @login_required
