@@ -294,7 +294,7 @@ def listing_create(request):
 
 # Add listing to watchlist
 @login_required
-def watchlist(request, listing_id):
+def add_watchlist(request, listing_id):
     if request.method == "POST":
         listing = Listing.objects.get(pk=listing_id)
         user = request.user.id
