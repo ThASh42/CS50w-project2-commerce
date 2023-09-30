@@ -2,12 +2,19 @@
 
 {% block body %}
 
-    <h2 class="text-center">Watchlist</h2>
+    <div class="text-center col-lg-8 m-auto">
+        <h2>Watchlist</h2>
+        <form action="{% url 'watchlist' %}" method="POST">
+            {% include "auctions/helpers/search.html" %}
+        </form>
+    </div>
     
     {% if listings %}
         {% include "auctions/helpers/listing_section.html" %}
     {% else %}
-        <h4 class="text-center">There are no listings in your watchlist</h4>
+        <div class="text-center mt-3">
+            <h1>Listings not found</h1>
+        </div>
     {% endif %}
 
 {% endblock body %}

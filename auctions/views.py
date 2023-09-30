@@ -313,7 +313,7 @@ def delete_watchlist(request, listing_id):
 
 
 @login_required
-def my_watchlist(request):
+def watchlist(request):
     user_id = request.user.id
     listings = Listing.objects.filter(watchlist__id=user_id)
     return render(request, "auctions/watchlist.html", {
