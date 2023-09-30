@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .utilities import CONDITION_CHOICES, CATEGORY_CHOICES
-from .utilities import get_price, check_highest_bid, check_price
+from .utilities import get_price, check_highest_bid, check_price, search_apply, create_search_url
 from .models import *
 from decimal import Decimal
 
@@ -18,13 +18,11 @@ def index(request):
         search = request.GET.get('q', "")
         # Get selected category
         selected_category = request.GET.get('category', "all")
-
+        # Get active listings
         listings = Listing.objects.filter(active_status="active")
+
         # Apply search
-        if search:
-            listings = listings.filter(title__icontains = search)
-        if selected_category != "all":
-            listings = listings.filter(category = selected_category)
+        listings = search_apply(listings, search, selected_category)
 
         return render(request, "auctions/index.html", {
             "listings": listings,
@@ -34,19 +32,11 @@ def index(request):
         })
     elif request.method == "POST": # Search result
         # Get searched category
-        category = request.POST["category"]
+        selected_category = request.POST["category"]
         # Get search
         search = request.POST["search"].strip(" ")
 
-        url = reverse("index")
-
-        if search:
-            url += f"?q={search}"
-        if category != "all":
-            if "?" in url:
-                url += f"&category={category}"
-            else:
-                url += f"?category={category}"
+        url = create_search_url("index", search, selected_category)
         
         return HttpResponseRedirect(url)
 
@@ -202,32 +192,30 @@ def bids(request, listing_id):
 @login_required
 def my_listings(request):
     if request.method == "GET":
+        # Get search
+        search = request.GET.get('q', "")
+        # Get selected category
+        selected_category = request.GET.get('category', "all")
+        # Get active listings
         listings = Listing.objects.filter(owner = request.user)
+
+        # Apply search
+        listings = search_apply(listings, search, selected_category)
+
         return render(request, "auctions/my_listings.html", {
                 "listings": listings,
                 "categories": CATEGORY_CHOICES,
             })
     elif request.method == "POST":
         # Get searched category
-        category = request.POST["category"]
+        selected_category = request.POST["category"]
         # Get search
         search = request.POST["search"].strip(" ")
         
-        if not category == "all" or not search == "":
-            
-            if category == "all":
-                listings = Listing.objects.filter(active_status="active", title__icontains=search, owner = request.user)
-            else:
-                listings = Listing.objects.filter(active_status="active", category=category, title__icontains=search, owner = request.user)
-            return render(request, "auctions/my_listings.html", {
-                    "listings": listings,
-                    "categories": CATEGORY_CHOICES,
-                    "selected_category": category,
-                    "search": search,
-                })
-        else:
-            return HttpResponseRedirect(reverse("my_listings"))
+        # Create url
+        url = create_search_url("my_listings", search, selected_category)
 
+        return HttpResponseRedirect(url)
 
 # Place bid
 @login_required
