@@ -12,7 +12,9 @@
     {% if listings %}
         {% include "auctions/helpers/listing_section.html" %}
     {% else %}
-        <h4 class="text-center">Listings not found</h4>
+    <div class="text-center mt-3">
+        <h1>Listings not found</h1>
+    </div>
     {% endif %}
 
 {% endblock body %}
