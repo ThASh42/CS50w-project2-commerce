@@ -43,33 +43,34 @@ def index(request):
 
 # Display listing page
 def listing(request, listing_id):
-    listing = Listing.objects.get(pk=listing_id)
-    is_watching = request.user in listing.watchlist.all()
-    
-    # Check if the current user is the owner of the listing
-    owner_id = listing.owner.id
-    is_owner = True if request.user.id == owner_id else False
-    
-    # Get comments
-    comments = listing.comments.all()
-    
-    # Get current price
-    current_price = get_price(listing)
-    
-    # Get name of category
-    for category_tuple in CATEGORY_CHOICES:
-        if category_tuple[0] == listing.category:
-            category = category_tuple[1]
-            break
-    
-    return render(request, "auctions/listing.html", {
-        "listing": listing,
-        "is_watching": is_watching,
-        "comments": comments,
-        "is_owner": is_owner,
-        "current_price": current_price,
-        "category": category,
-    })
+    if request.method == "GET":
+        listing = Listing.objects.get(pk=listing_id)
+        is_watching = request.user in listing.watchlist.all()
+        
+        # Check if the current user is the owner of the listing
+        owner_id = listing.owner.id
+        is_owner = True if request.user.id == owner_id else False
+        
+        # Get comments
+        comments = listing.comments.all()
+        
+        # Get current price
+        current_price = get_price(listing)
+        
+        # Get name of category
+        for category_tuple in CATEGORY_CHOICES:
+            if category_tuple[0] == listing.category:
+                category = category_tuple[1]
+                break
+        
+        return render(request, "auctions/listing.html", {
+            "listing": listing,
+            "is_watching": is_watching,
+            "comments": comments,
+            "is_owner": is_owner,
+            "current_price": current_price,
+            "category": category,
+        })
 
 
 # Edit listing
@@ -111,6 +112,7 @@ def listing_edit(request, listing_id):
         return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
 
+# Edit comment page
 @login_required
 def comment_edit(request, listing_id, comment_id):
     
@@ -118,7 +120,6 @@ def comment_edit(request, listing_id, comment_id):
     listing = Listing.objects.get(pk=listing_id)
     # Get comment
     comment = listing.comments.get(pk=comment_id)
-    
     
     # Check if the logged-in user is the owner of the comment
     if comment.commentator != request.user:
@@ -174,6 +175,7 @@ def close_auction(request, listing_id):
         return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
 
+# Page of bids
 def bids(request, listing_id):
     if request.method == "GET":
         listing = Listing.objects.get(pk=listing_id)
@@ -299,7 +301,7 @@ def add_watchlist(request, listing_id):
         listing = Listing.objects.get(pk=listing_id)
         user = request.user.id
         listing.watchlist.add(user)
-    return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
+        return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
 
 # Delete listing from watchlist
@@ -312,13 +314,15 @@ def delete_watchlist(request, listing_id):
         return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
 
+# User's watchlist page
 @login_required
 def watchlist(request):
-    user_id = request.user.id
-    listings = Listing.objects.filter(watchlist__id=user_id)
-    return render(request, "auctions/watchlist.html", {
-        "listings": listings
-    })
+    if request.method == "GET":
+        user_id = request.user.id
+        listings = Listing.objects.filter(watchlist__id=user_id)
+        return render(request, "auctions/watchlist.html", {
+            "listings": listings
+        })
 
 
 # Add comment to the listing
@@ -342,6 +346,7 @@ def comment(request, listing_id):
         return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
 
+# Login
 def login_view(request):
     if request.method == "POST":
         
@@ -362,11 +367,13 @@ def login_view(request):
         return render(request, "auctions/login.html")
 
 
+# Logout
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
 
 
+# Register
 def register(request):
     if request.method == "POST":
         username = request.POST["username"]
