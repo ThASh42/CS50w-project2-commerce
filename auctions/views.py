@@ -207,6 +207,8 @@ def my_listings(request):
         return render(request, "auctions/my_listings.html", {
                 "listings": listings,
                 "categories": CATEGORY_CHOICES,
+                "search": search,
+                "selected_category": selected_category,
             })
     elif request.method == "POST":
         # Get searched category
