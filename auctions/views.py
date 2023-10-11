@@ -147,14 +147,17 @@ def comment_edit(request, listing_id, comment_id):
 @login_required
 def status(request, listing_id):
     if request.method == "POST":
-        
         listing = Listing.objects.get(pk=listing_id)
-        if listing.active_status == "active":
-            listing.active_status = "inactive"
-        elif listing.active_status == "inactive":
-            listing.active_status = "active"
-        
-        listing.save()
+        if not listing.bids.exists():
+            listing = Listing.objects.get(pk=listing_id)
+            if listing.active_status == "active":
+                listing.active_status = "inactive"
+            elif listing.active_status == "inactive":
+                listing.active_status = "active"
+            
+            listing.save()
+        else:
+            messages.error(request, "You can't change your status due to existing bids")
         return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
 
