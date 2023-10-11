@@ -1,18 +1,21 @@
 {% csrf_token %}
 <div class="row g-3">
+
+    {% if listing.bids.exists %}
+    <div class="text-center">
+        <h2>Only description can be changed as there are already bids on this listing.</h2>
+    </div>
+    {% endif %}
+
     <div class="col-lg-8">
         <label for="listing-input-title" class="form-label">Title</label> 
-        <input class="form-control" name="title" value="{{ listing.title }}" id="listing-input-title" type="text" autocomplete="off" required>
+        <input class="form-control" name="title" value="{{ listing.title }}" id="listing-input-title" type="text" autocomplete="off" required
+        {% if not listing.bids.exists %}>{% else %}disabled>{% endif %}
     </div>
     <div class="col-lg-4">
         <label for="listing-input-bid" class="form-label">Starting bid</label>
         <input class="form-control" name="start-bid" value="{{ listing.start_bid }}" id="listing-input-bid" type="text" autocomplete="off" required
-        {% if not listing.bids.exists %}
-            >
-        {% else %}
-            disabled>
-            <p>The starting bid cannot be changed as there are already bids on this listing.</p>
-        {% endif %}
+        {% if not listing.bids.exists %}>{% else %}disabled>{% endif %}
     </div>
 </div>
 <div class="mt-3">
@@ -22,11 +25,14 @@
 <div class="row">
     <div class="mt-3 col-12 col-sm-4">
         <label for="listing-input-image" class="form-label">image URL</label>
-        <input id="listing-input-image" class="form-control" name="image-url" value="{{ listing.image }}" id="listing-input-image" type="url" autocomplete="off">
+        <input id="listing-input-image" class="form-control" name="image-url" value="{{ listing.image }}" id="listing-input-image" type="url" autocomplete="off"
+        {% if not listing.bids.exists %}>{% else %}disabled>{% endif %}
     </div>
     <div class="mt-3 col">
         <label for="listing-input-condition" class="form-label"> Condition</label>
-        <select id="listing-input-condition" name="condition" class="form-select">
+        <select id="listing-input-condition" name="condition" class="form-select"
+        {% if not listing.bids.exists %}>{% else %}disabled>{% endif %}
+
             {% for condition_value, condition_text in conditions %}
                 {% if condition_value == listing.condition %}
                     <option value="{{ condition_value }}" selected>{{ condition_text }}</option>
@@ -34,18 +40,22 @@
                     <option value="{{ condition_value }}">{{ condition_text }}</option>
                 {% endif %}
             {% endfor %}
+
         </select>
     </div>
     <div class="mt-3 col">
         <label for="listing-input-category" class="form-label">Category</label>
-        <select id="listing-input-category" name="category" class="form-select">
-            {% for category_value, category_text in categories %}
+        <select id="listing-input-category" name="category" class="form-select"
+        {% if not listing.bids.exists %}>{% else %}disabled>{% endif %}
+
+        {% for category_value, category_text in categories %}
                 {% if category_value == listing.category %}
                     <option value="{{ category_value }}" selected>{{ category_text }}</option>
                 {% else %}
                     <option value="{{ category_value }}">{{ category_text }}</option>
                 {% endif %}
             {% endfor %}
+
         </select>
     </div>
 </div>

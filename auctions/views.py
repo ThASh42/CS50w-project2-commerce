@@ -92,21 +92,20 @@ def listing_edit(request, listing_id):
             "listing": listing,
         })
     if request.method == "POST":
-        
         # Update listing data
-        title = request.POST["title"]
-        listing.title = title
-        if "start-bid" in request:
+        if not listing.bids.exists(): # if bids exists, description can be only changed
+            title = request.POST["title"]
+            listing.title = title
             start_bid = request.POST["start-bid"]
             listing.start_bid = start_bid
+            image_url = request.POST["image-url"]
+            listing.image_url = image_url
+            condition = request.POST["condition"]
+            listing.condition = condition
+            category = request.POST["category"]
+            listing.category = category
         description = request.POST["description"]
         listing.description = description
-        image_url = request.POST["image-url"]
-        listing.image_url = image_url
-        condition = request.POST["condition"]
-        listing.condition = condition
-        category = request.POST["category"]
-        listing.category = category
         
         listing.save()
         return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
