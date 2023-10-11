@@ -1,3 +1,5 @@
+$myblue: rgb(20, 100, 219);
+
 $custom-colors: (
 	"purple": $purple,
 	"darkenPurple": $purple-darken,
@@ -5,8 +7,8 @@ $custom-colors: (
 	"accent": $accent-color,
 	"bodyButton": $body-color-lighten-20,
 	"secondary": $secondary-body-color,
-	"purpleblue": mix($purple, CornflowerBlue, 40%),
-	"lightblue": rgb(92, 133, 229),
+	"myblue": $myblue,
+	"purpleblue": mix($purple, $myblue, 60%),
 );
 
 $theme-colors: map-merge($theme-colors, $custom-colors);
