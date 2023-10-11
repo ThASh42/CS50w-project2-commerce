@@ -100,10 +100,13 @@
                                             {% csrf_token %}
                                             <input class="btn btn-myblue border-0 my-1 w-100" type="submit" value="Edit">
                                         </form>
-                                        <form action="{% url 'status' listing.id %}" method="POST">
-                                            {% csrf_token %}
-                                            <input class="btn btn-purpleblue border-0 my-1 w-100" type="submit" value="Change status">
-                                        </form>
+                                        {% if not listing.bids.exists %}
+                                            <form action="{% url 'status' listing.id %}" method="POST">
+                                                {% csrf_token %}
+                                                <input class="btn btn-purpleblue border-0 my-1 w-100" type="submit" 
+                                                value={% if listing.active_status == "inactive" %} "Make active" {% else %} "Make inactive" {% endif %}>
+                                            </form>
+                                        {% endif %}
                                         <form action="{% url 'close_auction' listing.id %}" method="POST">
                                             {% csrf_token %}
                                             <input class="btn btn-lightenPurple border-0 my-1 w-100" type="submit" value="Close auction">
