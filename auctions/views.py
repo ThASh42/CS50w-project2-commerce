@@ -79,18 +79,19 @@ def listing_edit(request, listing_id):
     
     listing = Listing.objects.get(pk=listing_id)
     
-    # Check if the logged-in user is the owner of the listing
+    # Check if the user is the owner of the listing
     if listing.owner != request.user:
-        # Display an error message indicating unauthorized access
-        return HttpResponse("You are not authorized to edit this listing.")
+        # Display an error message indicating an access error
+        messages.error(request, "You cannot change a listing which is not yours")
+        return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
     
     if request.method == "GET":
-        
         return render(request, "auctions/listing_edit.html", {
             "conditions": CONDITION_CHOICES,
             "categories": CATEGORY_CHOICES,
             "listing": listing,
         })
+    
     if request.method == "POST":
         # Update listing data
         if not listing.bids.exists(): # if bids exists, description can be only changed
@@ -120,12 +121,14 @@ def comment_edit(request, listing_id, comment_id):
     # Get comment
     comment = listing.comments.get(pk=comment_id)
     
-    # Check if the logged-in user is the owner of the comment
+    # Check if the user is the owner of the comment
     if comment.commentator != request.user:
-        # Display an error message indicating unauthorized access
-        return HttpResponse("You are not authorized to edit this comment.")
+        # Display an error message indicating an access error
+        messages.error(request, "You are not owner of this comment")
+        return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
     
     if request.method == "GET":
+        # Render comment edit page
         return render(request, "auctions/comment_edit.html", {
             "comment": comment,
             "listing_id": listing.id,
