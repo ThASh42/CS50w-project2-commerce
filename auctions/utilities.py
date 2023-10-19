@@ -67,12 +67,21 @@ def check_highest_bid(listing, user):
 
 
 # Apply search
-def search_apply(listings, search, selected_category):
-    if search:
-        listings = listings.filter(title__icontains = search)
-    if selected_category != "all":
-        listings = listings.filter(category = selected_category)
-    return listings
+def do_search(request_get, listings):
+    if "q" in request_get or "category" in request_get:
+        # Get a search query
+        search = request_get.get('q', "")
+        # Get a selected category
+        selected_category = request_get.get('category', "all")
+        # Make search
+        if search:
+            listings = listings.filter(title__icontains = search)
+        if selected_category != "all":
+            listings = listings.filter(category = selected_category)
+    else: 
+        search = ''
+        selected_category = None
+    return listings, search, selected_category
 
 
 # Create redirect url with search

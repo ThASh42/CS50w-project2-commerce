@@ -7,22 +7,17 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .utilities import CONDITION_CHOICES, CATEGORY_CHOICES
-from .utilities import get_price, check_highest_bid, check_price, search_apply, create_search_url
+from .utilities import get_price, check_highest_bid, check_price, do_search, create_search_url
 from .models import *
 from decimal import Decimal
 
 # Display active listings
 def index(request):
     if request.method == "GET":
-        # Get search
-        search = request.GET.get('q', "")
-        # Get selected category
-        selected_category = request.GET.get('category', "all")
         # Get active listings
         listings = Listing.objects.filter(active_status="active")
-
         # Apply search
-        listings = search_apply(listings, search, selected_category)
+        listings, search, selected_category = do_search(request.GET, listings)
 
         return render(request, "auctions/index.html", {
             "listings": listings,
@@ -199,22 +194,17 @@ def bids(request, listing_id):
 @login_required
 def my_listings(request):
     if request.method == "GET":
-        # Get search
-        search = request.GET.get('q', "")
-        # Get selected category
-        selected_category = request.GET.get('category', "all")
         # Get active listings
         listings = Listing.objects.filter(owner = request.user)
-
-        # Apply search
-        listings = search_apply(listings, search, selected_category)
+        # Search
+        listings, search, selected_category = do_search(request.GET, listings)
 
         return render(request, "auctions/my_listings.html", {
-                "listings": listings,
-                "categories": CATEGORY_CHOICES,
-                "search": search,
-                "selected_category": selected_category,
-            })
+            "listings": listings,
+            "categories": CATEGORY_CHOICES,
+            "search": search,
+            "selected_category": selected_category,
+        })
     elif request.method == "POST":
         # Get searched category
         selected_category = request.POST["category"]
@@ -233,18 +223,9 @@ def mybids(request):
         ids = UserBiddingActivity.objects.filter(active_user__id=request.user.id).values_list('active_listing', flat=True)
         # Get all listings
         listings = Listing.objects.filter(id__in=ids)
-        
         # Search
-        if "q" in request.GET or "category" in request.GET:
-            # Get a search query
-            search = request.GET.get('q', "")
-            # Get a selected category
-            selected_category = request.GET.get('category', "all")
-            # Make search
-            listings = search_apply(listings, search, selected_category)
-        else: 
-            search = ''
-            selected_category = None
+        listings, search, selected_category = do_search(request.GET, listings)
+
         return render(request, "auctions/mybids.html", {
             "listings": listings,
             "categories": CATEGORY_CHOICES,
@@ -363,13 +344,9 @@ def watchlist(request):
     if request.method == "GET":
         user_id = request.user.id
         listings = Listing.objects.filter(watchlist__id=user_id)
+        # Search
+        listings, search, selected_category = do_search(request.GET, listings)
 
-        # Get search
-        search = request.GET.get('q', "")
-        # Get selected category
-        selected_category = request.GET.get("category", "all")
-
-        listings = search_apply(listings, search, selected_category)
         return render(request, "auctions/watchlist.html", {
             "listings": listings,
             "categories": CATEGORY_CHOICES,
