@@ -25,15 +25,20 @@
                         <h4>
                             {{ listing.title }}
                         </h4>
-                        <h5 class="card-text">
-                            {% if listing.active_status == "active" %}
-                            Status: Active
-                            {% elif listing.active_status == "inactive" %}
-                            Status: Inactive
-                            {% else %}
-                            Status: Closed
-                            {% endif %}
-                        </h5>
+                        <div>
+                            <h5 class="card-text">
+                                {% if listing.active_status == "active" %}
+                                Status: Active
+                                {% elif listing.active_status == "inactive" %}
+                                Status: Inactive
+                                {% else %}
+                                Status: Closed
+                                {% endif %}
+                            </h5>
+                            <h5>
+                                Owner: {{ listing.owner }}
+                            </h5>
+                        </div>
                     </div>
                     <div>
                         <p>{{ listing.description }}</p>
