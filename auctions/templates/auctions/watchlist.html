@@ -1,7 +1,6 @@
 {% extends 'auctions/layout.html' %}
 
 {% block body %}
-
     <div class="text-center col-lg-8 m-auto">
         <h2>Watchlist</h2>
         <form action="{% url 'watchlist' %}" method="POST">
@@ -12,9 +11,6 @@
     {% if listings %}
         {% include "auctions/helpers/listing_section.html" %}
     {% else %}
-        <div class="text-center mt-3">
-            <h1>Listings not found</h1>
-        </div>
+        {% include "auctions/helpers/listings_not_found.html" %}
     {% endif %}
-
 {% endblock body %}
