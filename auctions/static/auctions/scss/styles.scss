@@ -60,7 +60,7 @@ span {
 	text-decoration: underline;
 }
 
-// width bigger than 991px
+// width more than 991px
 @include media-breakpoint-up(lg) {
 	body {
 		font-size: $font-size-18;
@@ -75,7 +75,7 @@ span {
 	}
 }
 
-// width is smaller than 992px
+// width is equal to or less than 991px
 @include media-breakpoint-down(lg) {
 	body {
 		font-size: $font-size-16;
@@ -87,5 +87,25 @@ span {
 
 	#mobile-authenticated {
 		display: block;
+	}
+}
+
+// width more than 576px
+@include media-breakpoint-up(sm) {
+	#computer-search {
+		display: flex;
+	}
+	#mobile-search {
+		display: none;
+	}
+}
+
+// width is equal to or less than 576px
+@include media-breakpoint-down(sm) {
+	#computer-search {
+		display: none;
+	}
+	#mobile-search {
+		display: flex;
 	}
 }

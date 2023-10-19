@@ -12716,4 +12716,20 @@ span {
   #mobile-authenticated {
     display: block;
   }
+}
+@media (min-width: 576px) {
+  #computer-search {
+    display: flex;
+  }
+  #mobile-search {
+    display: none;
+  }
+}
+@media (max-width: 575.98px) {
+  #computer-search {
+    display: none;
+  }
+  #mobile-search {
+    display: flex;
+  }
 }/*# sourceMappingURL=styles.css.map */
