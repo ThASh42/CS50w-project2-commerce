@@ -226,6 +226,42 @@ def my_listings(request):
 
         return HttpResponseRedirect(url)
 
+
+def mybids(request):
+    if request.method == "GET":
+        # Get all listings' ID
+        ids = UserBiddingActivity.objects.filter(active_user__id=request.user.id).values_list('active_listing', flat=True)
+        # Get all listings
+        listings = Listing.objects.filter(id__in=ids)
+        
+        # Search
+        if "q" in request.GET or "category" in request.GET:
+            # Get a search query
+            search = request.GET.get('q', "")
+            # Get a selected category
+            selected_category = request.GET.get('category', "all")
+            # Make search
+            listings = search_apply(listings, search, selected_category)
+        else: 
+            search = ''
+            selected_category = None
+        return render(request, "auctions/mybids.html", {
+            "listings": listings,
+            "categories": CATEGORY_CHOICES,
+            "search": search,
+            "selected_category": selected_category,
+        })
+    elif request.method == "POST":
+        # Get searched category
+        selected_category = request.POST["category"]
+        # Get search
+        search = request.POST["search"].strip(" ")
+        # Create url
+        url = create_search_url("mybids", search, selected_category)
+
+        return HttpResponseRedirect(url)
+
+
 # Place bid
 @login_required
 def bid(request, listing_id):

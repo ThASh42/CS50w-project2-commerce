@@ -86,3 +86,11 @@ class Listing(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class UserBiddingActivity(models.Model):
+    active_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="active_bidding_user")
+    active_listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="active_listing")
+    
+    def __str__(self):
+        return f"{self.active_user} - {self.active_listing_id}"

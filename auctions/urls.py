@@ -24,6 +24,7 @@ urlpatterns = [
     # Other paths
     path("create-listing", views.listing_create, name="listing_create"),
     path("my-listings", views.my_listings, name="my_listings"),
+    path("mybids", views.mybids, name="mybids"),
     
     # User paths
     path("login", views.login_view, name="login"),
