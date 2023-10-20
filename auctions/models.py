@@ -3,16 +3,6 @@ from django.db import models
 
 from .utilities import CONDITION_CHOICES, CATEGORY_CHOICES, STATUS_CHOICES
 
-
-# * Model of update and creation time
-class Time(models.Model):
-    update_time = models.DateField(auto_now=True)
-    creation_time = models.DateField(auto_now=True)
-
-    def __str__(self):
-        return f"Creation Date: {self.creation_time}, Update Date: {self.update_time}"
-
-
 # * User model
 class User(AbstractUser):
     pass
@@ -49,7 +39,6 @@ class Listing(models.Model):
     start_bid = models.DecimalField(max_digits=20, decimal_places=2)
     image = models.URLField(max_length=256)
     bids = models.ManyToManyField(Bid, blank=True, related_name="bids")
-    time = models.OneToOneField(Time, on_delete=models.SET_NULL, null=True)
     condition = models.CharField(
         max_length=16, null=True, choices=CONDITION_CHOICES
     )
