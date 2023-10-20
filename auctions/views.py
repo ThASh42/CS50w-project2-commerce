@@ -342,7 +342,7 @@ def comment(request, listing_id):
         user = request.user
         user_comment = request.POST["message"]
         
-        if user_comment:
+        if user_comment.strip():
             comment = Comment(
                 commentator = user,
                 message = user_comment,
