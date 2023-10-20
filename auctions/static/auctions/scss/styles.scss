@@ -60,6 +60,10 @@ span {
 	text-decoration: underline;
 }
 
+#card-listing-closed-message {
+	color: red;
+}
+
 // width more than 991px
 @include media-breakpoint-up(lg) {
 	body {

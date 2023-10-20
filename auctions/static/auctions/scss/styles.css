@@ -12695,6 +12695,10 @@ span {
   text-decoration: underline;
 }
 
+#card-listing-closed-message {
+  color: red;
+}
+
 @media (min-width: 992px) {
   body {
     font-size: 18px;

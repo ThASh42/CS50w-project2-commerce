@@ -11,6 +11,13 @@
                     </a>
                 </div>
                 <div class="card-body">
+                    {% if listing.active_status == "closed" %}
+                        <div class="text-center">
+                            <a href="{% url 'listing' listing.id %}">
+                                <strong id="card-listing-closed-message">Closed</strong>
+                            </a>
+                        </div>
+                    {% endif %}
                     <div class="card-title">
                         <a href="{% url 'listing' listing.id %}">
                             <strong>{{ listing.title }}</strong>
