@@ -204,7 +204,9 @@ def my_listings(request):
         return HttpResponseRedirect(url)
 
 
-def mybids(request):
+# Page of all listings with user's bids
+@login_required
+def my_bids(request):
     if request.method == "GET":
         # Get all listings' ID
         ids = UserBiddingActivity.objects.filter(active_user__id=request.user.id).values_list('active_listing', flat=True)
@@ -213,14 +215,14 @@ def mybids(request):
         # Search
         listings, search, selected_category = do_search(request.GET, listings)
 
-        return render(request, "auctions/mybids.html", {
+        return render(request, "auctions/my_bids.html", {
             "listings": listings,
             "categories": CATEGORY_CHOICES,
             "search": search,
             "selected_category": selected_category,
         })
     elif request.method == "POST":
-        url = create_search_url("mybids", request)
+        url = create_search_url("my_bids", request)
         return HttpResponseRedirect(url)
 
 
