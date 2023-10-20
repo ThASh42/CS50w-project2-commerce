@@ -259,13 +259,8 @@ def bid(request, listing_id):
         is_price_bigger = check_price(listing, bid_price)
         
         if not has_highest_bid and is_price_bigger:
-            
-            time = Time()
-            time.save()
-            
             bid = Bid(
                 price = bid_price,
-                time = time,
                 user = user,
             )
             bid.save()
@@ -298,9 +293,6 @@ def listing_create(request):
         condition = request.POST["condition"]
         category = request.POST["category"]
         
-        time = Time()
-        time.save()
-        
         user = request.user
         # Create listing
         listing = Listing(
@@ -310,7 +302,6 @@ def listing_create(request):
             start_bid = start_bid,
             image = image_url,
             condition = condition,
-            time = time,
             category = category,
         )
         listing.save()
