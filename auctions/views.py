@@ -128,16 +128,16 @@ def comment_edit(request, listing_id, comment_id):
             "comment": comment,
             "listing_id": listing.id,
         })
-    elif request.method == "POST":
-        
+    
+    elif request.method == "POST":        
         # Change message
         new_message = request.POST["new-message"]
-        comment.message = new_message
+        if comment.message.strip() != new_message.strip():
+            comment.message = new_message
+            # Set is_modified = True
+            comment.is_modified = True
+            comment.save()
         
-        # Set is_modified True
-        comment.is_modified = True
-        
-        comment.save()
         return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
 
@@ -374,14 +374,17 @@ def comment(request, listing_id):
         user = request.user
         user_comment = request.POST["message"]
         
-        comment = Comment(
-            commentator = user,
-            message = user_comment,
-        )
-        comment.save()
-        
-        listing = Listing.objects.get(pk=listing_id)
-        listing.comments.add(comment)
+        if user_comment:
+            comment = Comment(
+                commentator = user,
+                message = user_comment,
+            )
+            comment.save()
+            
+            listing = Listing.objects.get(pk=listing_id)
+            listing.comments.add(comment)
+        else:
+            messages.error(request, "The comment must have content")
         
         return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
