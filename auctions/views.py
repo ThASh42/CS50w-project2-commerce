@@ -374,14 +374,17 @@ def comment(request, listing_id):
         user = request.user
         user_comment = request.POST["message"]
         
-        comment = Comment(
-            commentator = user,
-            message = user_comment,
-        )
-        comment.save()
-        
-        listing = Listing.objects.get(pk=listing_id)
-        listing.comments.add(comment)
+        if user_comment:
+            comment = Comment(
+                commentator = user,
+                message = user_comment,
+            )
+            comment.save()
+            
+            listing = Listing.objects.get(pk=listing_id)
+            listing.comments.add(comment)
+        else:
+            messages.error(request, "The comment must have content")
         
         return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
