@@ -128,16 +128,16 @@ def comment_edit(request, listing_id, comment_id):
             "comment": comment,
             "listing_id": listing.id,
         })
-    elif request.method == "POST":
-        
+    
+    elif request.method == "POST":        
         # Change message
         new_message = request.POST["new-message"]
-        comment.message = new_message
+        if comment.message.strip() != new_message.strip():
+            comment.message = new_message
+            # Set is_modified = True
+            comment.is_modified = True
+            comment.save()
         
-        # Set is_modified True
-        comment.is_modified = True
-        
-        comment.save()
         return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
 
