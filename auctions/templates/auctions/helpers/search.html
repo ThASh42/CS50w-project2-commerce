@@ -20,10 +20,10 @@
 <div class="container">
     <div class="row" id="mobile-search">
         <div class="col-12">
-            <input name="search" class="form-control" type="search" placeholder="Search for anything" value="{{ search }}" autocomplete="off">
+            <input name="search_mobile" class="form-control" type="search" placeholder="Search for anything" value="{{ search }}" autocomplete="off">
         </div>
         <div class="col-12 input-group mt-2">
-            <select name="category" class="form-select" id="search_categories">
+            <select name="category_mobile" class="form-select" id="search_categories">
                 <option value="all" selected>All Categories</option>
                 {% for category_value, category_text in categories %}
                     {% if category_value == selected_category and selected_category %} <!-- Set the option to be selected if it is searched category -->

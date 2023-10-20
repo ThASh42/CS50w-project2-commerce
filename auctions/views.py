@@ -26,13 +26,7 @@ def index(request):
             "search": search,
         })
     elif request.method == "POST": # Search result
-        # Get searched category
-        selected_category = request.POST["category"]
-        # Get search
-        search = request.POST["search"].strip(" ")
-
-        url = create_search_url("index", search, selected_category)
-        
+        url = create_search_url("index", request)
         return HttpResponseRedirect(url)
 
 
@@ -206,14 +200,7 @@ def my_listings(request):
             "selected_category": selected_category,
         })
     elif request.method == "POST":
-        # Get searched category
-        selected_category = request.POST["category"]
-        # Get search
-        search = request.POST["search"].strip(" ")
-        
-        # Create url
-        url = create_search_url("my_listings", search, selected_category)
-
+        url = create_search_url("my_listings", request)
         return HttpResponseRedirect(url)
 
 
@@ -233,13 +220,7 @@ def mybids(request):
             "selected_category": selected_category,
         })
     elif request.method == "POST":
-        # Get searched category
-        selected_category = request.POST["category"]
-        # Get search
-        search = request.POST["search"].strip(" ")
-        # Create url
-        url = create_search_url("mybids", search, selected_category)
-
+        url = create_search_url("mybids", request)
         return HttpResponseRedirect(url)
 
 
@@ -345,13 +326,7 @@ def watchlist(request):
             "search": search,
         })
     if request.method == "POST":
-        # Get search result
-        search = request.POST["search"].strip(" ")
-        # Get selected category
-        selected_category = request.POST["category"]
-
-        url = create_search_url("watchlist", search, selected_category)
-
+        url = create_search_url("watchlist", request)
         return HttpResponseRedirect(url)
 
 
