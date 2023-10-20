@@ -9,27 +9,8 @@ class Time(models.Model):
     update_time = models.DateField(auto_now=True)
     creation_time = models.DateField(auto_now=True)
 
-    def provide_suffix(self, someday):
-        return (
-            "th"
-            if 11 <= someday <= 13
-            else {1: "st", 2: "nd", 3: "rd"}.get(someday % 10, "th")
-        )
-
-    # the function displays the creation time
-    def print_creation_time(self):
-        day = self.creation_time.day
-        suffix = self.provide_suffix(day)
-        return self.creation_time.strftime(f"%B %d{suffix}, %Y")
-
-    # the function displays the update time
-    def print_update_time(self):
-        day = self.update_time.day
-        suffix = self.provide_suffix(day)
-        return self.update_time.strftime(f"%B %d{suffix}, %Y")
-
     def __str__(self):
-        return f"Creation Time: {self.creation_time}, Update Time: {self.update_time}"
+        return f"Creation Date: {self.creation_time}, Update Date: {self.update_time}"
 
 
 # * User model
@@ -57,7 +38,7 @@ class Bid(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
 
     def __str__(self):
-        return f"User({ self.user.id }); ID: { self.id }; price: { self.price }; Time: { self.time }"
+        return f"{ self.id }: User({ self.user.id }); price: { self.price }; Time: { self.time }"
 
 
 # * Listing model
