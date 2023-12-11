@@ -71,7 +71,7 @@ def listing_edit(request, listing_id):
     # Check if the user is the owner of the listing
     if listing.owner != request.user:
         # Display an error message indicating an access error
-        messages.error(request, "You cannot change a listing which is not yours")
+        messages.warning(request, "You cannot change a listing which is not yours")
         return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
     
     if request.method == "GET":
@@ -113,7 +113,7 @@ def comment_edit(request, listing_id, comment_id):
     # Check if the user is the owner of the comment
     if comment.commentator != request.user:
         # Display an error message indicating an access error
-        messages.error(request, "You are not owner of this comment")
+        messages.warning(request, "You are not owner of this comment")
         return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
     
     if request.method == "GET":
@@ -149,7 +149,7 @@ def status(request, listing_id):
             
             listing.save()
         else:
-            messages.error(request, "You can't change your status due to existing bids")
+            messages.warning(request, "You can't change your status due to existing bids")
         return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
 
@@ -163,7 +163,7 @@ def close_auction(request, listing_id):
             listing.winner = highest_bid.user
             listing.active_status = "closed"
         else:
-            messages.error(request, "There are no bidders for this listing")
+            messages.warning(request, "There are no bidders for this listing")
         
         listing.save()
         return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
@@ -252,9 +252,9 @@ def bid(request, listing_id):
             return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
         else:
             if has_highest_bid:
-                messages.success(request, "Your bid is already the highest")
+                messages.warning(request, "Your bid is already the highest")
             else:
-                messages.success(request, "Your bid price is not suitable")
+                messages.warning(request, "Your bid price is not suitable")
             
             return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
@@ -352,7 +352,7 @@ def comment(request, listing_id):
             listing = Listing.objects.get(pk=listing_id)
             listing.comments.add(comment)
         else:
-            messages.error(request, "The comment must have content")
+            messages.warning(request, "The comment must have content")
         
         return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
