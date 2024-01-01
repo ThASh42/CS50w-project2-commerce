@@ -61,3 +61,8 @@ $form-select-border-color: $body-color-lighten-20;
 $form-select-focus-box-shadow: none;
 
 $form-select-focus-border-color: $body-color-lighten-40;
+
+$form-select-disabled-color: darken($text-color, 10%);
+$form-select-disabled-bg: darken($body-color-lighten-5, 5%);
+$form-select-disabled-border-color: darken($body-color-lighten-20, 5%);
+
