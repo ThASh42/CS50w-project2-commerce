@@ -91,11 +91,6 @@ def create_search_url(reverse_argument, request):
     selected_category = request.POST["category"]
     # Get search
     search = request.POST["search"].strip(" ")
-    if not search or not selected_category:
-        # Get searched category (for mobile search)
-        selected_category = request.POST["category_mobile"]
-        # Get search (for mobile search)
-        search = request.POST["search_mobile"].strip(" ")
     
     url = reverse(reverse_argument)
     if search:

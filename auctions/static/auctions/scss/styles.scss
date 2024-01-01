@@ -93,23 +93,3 @@ span {
 		display: block;
 	}
 }
-
-// width more than 576px
-@include media-breakpoint-up(sm) {
-	#computer-search {
-		display: flex;
-	}
-	#mobile-search {
-		display: none;
-	}
-}
-
-// width is equal to or less than 576px
-@include media-breakpoint-down(sm) {
-	#computer-search {
-		display: none;
-	}
-	#mobile-search {
-		display: flex;
-	}
-}
