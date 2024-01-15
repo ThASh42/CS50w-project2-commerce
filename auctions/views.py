@@ -25,9 +25,6 @@ def index(request):
             "selected_category": selected_category,
             "search": search,
         })
-    elif request.method == "POST": # Search result
-        url = create_search_url("index", request)
-        return HttpResponseRedirect(url)
 
 
 # Display listing page
@@ -199,16 +196,13 @@ def my_listings(request):
             "search": search,
             "selected_category": selected_category,
         })
-    elif request.method == "POST":
-        url = create_search_url("my_listings", request)
-        return HttpResponseRedirect(url)
 
 
 # Page of all listings with user's bids
 @login_required
 def my_bids(request):
     if request.method == "GET":
-        # Get all listings' ID
+        # Get all listings' ID (QuerySet)
         ids = UserBiddingActivity.objects.filter(active_user__id=request.user.id).values_list('active_listing', flat=True)
         # Get all listings
         listings = Listing.objects.filter(id__in=ids)
@@ -221,9 +215,6 @@ def my_bids(request):
             "search": search,
             "selected_category": selected_category,
         })
-    elif request.method == "POST":
-        url = create_search_url("my_bids", request)
-        return HttpResponseRedirect(url)
 
 
 # Place bid
@@ -327,9 +318,6 @@ def watchlist(request):
             "selected_category": selected_category,
             "search": search,
         })
-    if request.method == "POST":
-        url = create_search_url("watchlist", request)
-        return HttpResponseRedirect(url)
 
 
 
