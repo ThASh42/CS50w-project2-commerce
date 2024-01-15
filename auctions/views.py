@@ -204,7 +204,7 @@ def my_bids(request):
     if request.method == "GET":
         # Get all listings' ID (QuerySet)
         ids = UserBiddingActivity.objects.filter(active_user__id=request.user.id).values_list('active_listing', flat=True)
-        # Get all listings
+        # Get all listingsa
         listings = Listing.objects.filter(id__in=ids)
         # Search
         listings, search, selected_category = do_search(request.GET, listings)
@@ -240,6 +240,19 @@ def bid(request, listing_id):
             bid.save()
             
             listing.bids.add(bid)
+
+            
+            # Get all listings' ID with user's bid (QuerySet)
+            listings_ids = UserBiddingActivity.objects.filter(active_user__id=user.id).values_list('active_listing', flat=True)
+            # Get activity with this listing
+            listing_activity = listings_ids.filter(active_listing__id = listing.id)
+            if not listing_activity.exists():
+                activity = UserBiddingActivity(
+                active_user = user,
+                active_listing = listing,
+                ) 
+                activity.save()
+
             return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
         else:
             if has_highest_bid:
