@@ -79,7 +79,7 @@
                                     <div>
                                         <form action="{% url 'bid' listing.id %}", method="POST">
                                             {% csrf_token %}
-                                            <input class="form-control mb-1 bg-myblue border-0 my-1 w-100" name="bid" type="number" placeholder="Price" required>
+                                            <input class="form-control mb-1 bg-myblue border-0 my-1 w-100" name="bid" autocomplete="off" placeholder="Price" required pattern="\d+(\.\d{1,2})?$">
                                             <input class="btn btn-purpleblue border-0 my-1 w-100" type="submit" value="Place bid">
                                         </form>
                                     </div>
